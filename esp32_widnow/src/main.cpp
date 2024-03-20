@@ -28,6 +28,7 @@ int t;
 boolean button1;
 boolean but_flag;
 String header;
+String url = "http://192.168.4.2:81/WindowStatus";
 boolean is_protected = false;
 char jsonOutput[128];
 const char* ssid     = "ESP32-Network";
@@ -36,8 +37,6 @@ unsigned long currentTime = millis();
 unsigned long previousTime = 0;
 const long timeoutTime = 2000;
 void setup()
-
-
 {
   Serial.begin(115200);
   pinMode(alarm_sound, OUTPUT);
@@ -159,7 +158,6 @@ void win_open()
     Serial.println(" ");
     Serial.print("WATER LEVEL ");
     Serial.print(rain);
-  
     Serial.println(" ");
     if (button1 == 1)
     {
@@ -170,13 +168,9 @@ void win_open()
     if (but_flag == 0 && button1 == 1)
     {
       boolean is_closed =  win_close();
-      if (is_closed == false)
-      {
-        warning();
-      }
     }
     else if ((but_flag == 1 && button1 == 1))
-    { //butflag == 1  open window 
+    { 
       win_open();
     }
     if (rain > 250 && is_window_open() == true)
@@ -197,13 +191,12 @@ void win_open()
       previousTime = currentMillis;
       Serial.println("User connected to ESP32's local WiFi");
       HTTPClient client;
-      String url = "http://192.168.4.2:81/api/window";
       client.begin(url.c_str());
       Serial.println("HTTP CODE GET: ");
       int httpCode2 = client.GET();
       Serial.println(httpCode2);
       client.end();
-      if (httpCode2 > 0) 
+      if (httpCode2 == 200) 
       {
         client.begin(url.c_str());
         client.addHeader("Content-Type", "application/json");
@@ -211,11 +204,10 @@ void win_open()
         String humidityStr = "\"" + String(h) + "\"";
         String isOpenStr = is_window_open() ? "true" : "false";
         isOpenStr ="\"" + isOpenStr + "\"";
-        String waterLevel = "\"" + String(rain)+ "\"";
-        String is_protected = is_protected ? "true" : "false";
-        is_protected ="\"" + is_protected + "\"";
-
-        String jsonString = "{\"temperature\": " +  temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + "}";
+        String waterLevelStr = "\"" + String(rain)+ "\"";
+        String is_protectedStr = is_protected ? "true" : "false";
+        is_protectedStr ="\"" + is_protectedStr + "\"";
+        String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"waterLevel\": " + waterLevelStr + ", \"isProtected\": " + is_protectedStr + "}";
         Serial.println("JSON STRING: ");
         Serial.println(jsonString);
         int httpResponseCode = client.POST(jsonString);

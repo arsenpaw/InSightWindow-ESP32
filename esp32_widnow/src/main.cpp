@@ -9,7 +9,6 @@
 #include <iostream>
 #include <map>
 #include <unordered_map>
-#include <ArduinoJson.h>
 
 WiFiServer server(80);
 #define magnet_switch 19  
@@ -35,7 +34,7 @@ const char* ssid     = "ESP32-Network";
 const char* password = "11111111";
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
-const long timeoutTime = 2000;
+const long timeoutTime = 10000;
 void setup()
 {
   Serial.begin(115200);
@@ -142,7 +141,7 @@ void win_open()
     rain = analogRead(water);
     h = dht.readHumidity();
     t = dht.readTemperature();
-    str = t;
+    
   
     Serial.print(F("Humidity: "));
     Serial.print(h);
@@ -189,51 +188,40 @@ void win_open()
     if (WiFi.softAPgetStationNum() > 0 && currentMillis - previousTime > timeoutTime) 
     {
       previousTime = currentMillis;
+      Serial.println("TEST");
       Serial.println("User connected to ESP32's local WiFi");
-      HTTPClient client;
-      client.begin(url.c_str());
-      Serial.println("HTTP CODE GET: ");
-      int httpCode2 = client.GET();
-      Serial.println(httpCode2);
-      client.end();
-      if (httpCode2 == 200) 
-      {
-        client.begin(url.c_str());
-        client.addHeader("Content-Type", "application/json");
-        String temperatureStr = "\"" + String(t) + "\"";
-        String humidityStr = "\"" + String(h) + "\"";
-        String isOpenStr = is_window_open() ? "true" : "false";
-        isOpenStr ="\"" + isOpenStr + "\"";
-        String waterLevelStr = "\"" + String(rain)+ "\"";
-        String is_protectedStr = is_protected ? "true" : "false";
-        is_protectedStr ="\"" + is_protectedStr + "\"";
-        String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"waterLevel\": " + waterLevelStr + ", \"isProtected\": " + is_protectedStr + "}";
-        Serial.println("JSON STRING: ");
-        Serial.println(jsonString);
-        int httpResponseCode = client.POST(jsonString);
-        Serial.println("HTTP POST  CODE: ");
-        Serial.println(httpResponseCode);
-        if (httpResponseCode > 0) {
-          String response = client.getString();
-          Serial.println("Response:");
-          Serial.println(response);
-        } 
-        else 
-        {
-          Serial.println("Error: No response received");
-        }
-        client.end();
-      }
-    delay(500);
+        HTTPClient client;
+          client.begin(url.c_str());
+          client.addHeader("Content-Type", "application/json");
+          String temperatureStr = "\"" + String(t) + "\"";
+          String humidityStr = "\"" + String(h) + "\"";
+          String isOpenStr = is_window_open() ? "true" : "false";
+          isOpenStr ="\"" + isOpenStr + "\"";
+          String waterLevelStr = "\"" + String(rain)+ "\"";
+          String is_protectedStr = is_protected ? "true" : "false";
+          is_protectedStr ="\"" + is_protectedStr + "\"";
+          String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"waterLevel\": " + waterLevelStr + ", \"isProtected\": " + is_protectedStr + "}";
+          Serial.println("JSON STRING: ");
+          Serial.println(jsonString);
+          int httpResponseCode = client.POST(jsonString);
+          Serial.println("HTTP POST  CODE: ");
+          Serial.println(httpResponseCode);
+          if (httpResponseCode > 0) {
+            String response = client.getString();
+            Serial.println("Response:");
+            Serial.println(response);
+          } 
+          else 
+          {
+            Serial.println("Error: No response received");
+            
+          }
+          client.end();
+          
     }
-    delay(500);
+   // delay(500);
   }
 
-class MyClass {
-public:
-    // Constructor to initialize the attribute
-     String test;
-    };
 
   
 

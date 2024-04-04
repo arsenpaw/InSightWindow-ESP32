@@ -9,12 +9,18 @@
 #include <iostream>
 #include <map>
 #include <unordered_map>
+#include <iostream>
+#include <future>
+
+
+
+
 
 WiFiServer server(80);
 #define magnet_switch 19  
 #define alarm_sound 26
 #define servo_pin  16
-#define water 25
+#define water 35
 #define button 17
 #define DHTPIN 33  
 #define DHTTYPE DHT11  
@@ -29,12 +35,13 @@ boolean but_flag;
 String header;
 String url = "http://192.168.4.2:81/WindowStatus";
 boolean is_protected = false;
+bool is_rain = false; 
 char jsonOutput[128];
 const char* ssid     = "ESP32-Network";
 const char* password = "11111111";
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
-const long timeoutTime = 10000;
+const long timeoutTime = 1000;
 void setup()
 {
   Serial.begin(115200);
@@ -172,13 +179,16 @@ void win_open()
     { 
       win_open();
     }
-    if (rain > 250 && is_window_open() == true)
+    if (rain > 250 )
     {
+      is_rain = true;
       Serial.print("RAIND DETECTED ");
-      short_warning();
-      delay(100);
-      win_close();
+      
     }
+    else
+    {
+      is_rain = false;
+      }
     if (is_window_open() == 1 && but_flag ==0 && is_protected == true )
     {
       alarm();
@@ -197,10 +207,10 @@ void win_open()
           String humidityStr = "\"" + String(h) + "\"";
           String isOpenStr = is_window_open() ? "true" : "false";
           isOpenStr ="\"" + isOpenStr + "\"";
-          String waterLevelStr = "\"" + String(rain)+ "\"";
+         
           String is_protectedStr = is_protected ? "true" : "false";
           is_protectedStr ="\"" + is_protectedStr + "\"";
-          String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"waterLevel\": " + waterLevelStr + ", \"isProtected\": " + is_protectedStr + "}";
+          String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"isRain\": " + is_rain + ", \"isProtected\": " + is_protectedStr + "}";
           Serial.println("JSON STRING: ");
           Serial.println(jsonString);
           int httpResponseCode = client.POST(jsonString);

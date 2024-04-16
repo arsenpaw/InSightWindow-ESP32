@@ -11,7 +11,8 @@
 #include <unordered_map>
 #include <iostream>
 #include <future>
-
+#include <string>
+#include <ArduinoJson.h>
 
 
 
@@ -34,14 +35,17 @@ boolean button1;
 boolean but_flag;
 String header;
 String url = "http://192.168.4.2:81/WindowStatus";
+String urlInput = "http://192.168.4.2:81/WindowStatus/getUserInput";
 boolean is_protected = false;
+bool globalOpenCheck;
 bool is_rain = false; 
 char jsonOutput[128];
 const char* ssid     = "ESP32-Network";
 const char* password = "11111111";
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
-const long timeoutTime = 1000;
+const long timeoutTime = 500;
+
 void setup()
 {
   Serial.begin(115200);
@@ -69,6 +73,7 @@ boolean is_window_open()
    Serial.println(" ");
   return alarm_read;
 }
+
 void alarm()
 { 
   int buzzer = alarm_sound;
@@ -118,8 +123,8 @@ boolean win_close()
   Serial.print("FUNC CLOSE");
   Serial.println(" ");
   servo1.attach(servo_pin);
-  servo1.write(110);
-  delay(1000);
+  servo1.write(115);
+ delay(800);
   servo1.detach();
   if (is_window_open() == 1)
     {
@@ -137,7 +142,7 @@ void win_open()
     Serial.println(" ");
     servo1.attach(servo_pin);
     servo1.write(72);
-    delay(1000); 
+    delay(500); 
     servo1.detach();
 }
   
@@ -165,20 +170,22 @@ void win_open()
     Serial.print("WATER LEVEL ");
     Serial.print(rain);
     Serial.println(" ");
-    if (button1 == 1)
+    button1 = 0;
+    if (button1 == 1  )
     {
       but_flag = !but_flag;
       delay(200);
     }
-  
-    if (but_flag == 0 && button1 == 1)
+   
+    if (but_flag == 0 && globalOpenCheck != but_flag)
     {
       boolean is_closed =  win_close();
     }
-    else if ((but_flag == 1 && button1 == 1))
+    else if (but_flag == 1 && globalOpenCheck != but_flag)
     { 
       win_open();
     }
+  
     if (rain > 250 )
     {
       is_rain = true;
@@ -193,6 +200,8 @@ void win_open()
     {
       alarm();
     }
+    globalOpenCheck = but_flag;
+    Serial.println(but_flag);
     unsigned long currentMillis = millis();
     WiFiClient client = server.available();   // Listen for incoming clients
     if (WiFi.softAPgetStationNum() > 0 && currentMillis - previousTime > timeoutTime) 
@@ -205,10 +214,10 @@ void win_open()
           client.addHeader("Content-Type", "application/json");
           String temperatureStr = "\"" + String(t) + "\"";
           String humidityStr = "\"" + String(h) + "\"";
-          String isOpenStr = is_window_open() ? "true" : "false";
+          String isOpenStr = is_window_open() ? "1" : "0";
           isOpenStr ="\"" + isOpenStr + "\"";
          
-          String is_protectedStr = is_protected ? "true" : "false";
+          String is_protectedStr = is_protected ? "1" : "0";
           is_protectedStr ="\"" + is_protectedStr + "\"";
           String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"isRain\": " + is_rain + ", \"isProtected\": " + is_protectedStr + "}";
           Serial.println("JSON STRING: ");
@@ -227,10 +236,27 @@ void win_open()
             Serial.println("Error: No response received");
             
           }
-          client.end();
-          
+        client.end();
+        client.begin(urlInput.c_str()); 
+        httpResponseCode = client.GET();
+       if (httpResponseCode > 0) 
+        {
+            bool isOpen = true;
+            std::string jsonStr = client.getString().c_str();
+            DynamicJsonDocument doc(1024); // створіть об'єкт JSON-документа
+           DeserializationError error = deserializeJson(doc, jsonStr);
+            is_protected = doc["isProtected"];
+            but_flag = doc["isOpen"]; 
+            
+        } 
+        else 
+        {
+            Serial.println("Error: No response received");
+        }
+     //     
+      
     }
-   // delay(500);
+  
   }
 
 

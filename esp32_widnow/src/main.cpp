@@ -39,6 +39,7 @@ String urlInput = "http://192.168.4.2:81/WindowStatus/getUserInput";
 boolean is_protected = false;
 bool globalOpenCheck;
 bool is_rain = false; 
+bool is_alarm = false;
 char jsonOutput[128];
 const char* ssid     = "ESP32-Network";
 const char* password = "11111111";
@@ -61,7 +62,6 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.softAPIP());
   server.begin();
-  
 }
 
   
@@ -76,6 +76,8 @@ boolean is_window_open()
 
 void alarm()
 { 
+  is_alarm = true;
+  return;
   int buzzer = alarm_sound;
   Serial.print("FUNC ALARM");
   Serial.println(" ");
@@ -87,36 +89,7 @@ void alarm()
     delay(100); // Pause for 100 milliseconds (adjust as needed)
    }
 }
-void warning()
-{ 
-  Serial.print("FUNC warning");
-  Serial.println(" ");
-   int buzzer = alarm_sound;
 
-   while (is_window_open() == 1)
-   { // Run for 5 seconds
-    Serial.print("FUNC warning");
-    tone(buzzer, 5000); // Set the buzzer to a frequency (adjust as needed)
-    delay(1000); // Play the sound for 100 milliseconds (adjust as needed)
-    noTone(buzzer); // Stop the sound
-    delay(500); // Pause for 100 milliseconds (adjust as needed)
-     }
-}
-void short_warning()
-{ 
-  Serial.print("TEMP warning");
-  Serial.println(" ");
-  int buzzer = alarm_sound;
-  for (int i = 0; i < 4; i++)
-  {
-    tone(buzzer, 1500);
-    delay(200);
-    noTone(buzzer);
-    delay(200);
-  }
-  tone(buzzer, 1800,1000);
-  noTone(buzzer);
-}
 
 boolean win_close()
 {
@@ -200,6 +173,10 @@ void win_open()
     {
       alarm();
     }
+    else if (is_window_open() == 0 && is_protected == true)
+    {
+      is_alarm = false;
+    }
     globalOpenCheck = but_flag;
     Serial.println(but_flag);
     unsigned long currentMillis = millis();
@@ -216,10 +193,9 @@ void win_open()
           String humidityStr = "\"" + String(h) + "\"";
           String isOpenStr = is_window_open() ? "1" : "0";
           isOpenStr ="\"" + isOpenStr + "\"";
-         
           String is_protectedStr = is_protected ? "1" : "0";
           is_protectedStr ="\"" + is_protectedStr + "\"";
-          String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"isRain\": " + is_rain + ", \"isProtected\": " + is_protectedStr + "}";
+          String jsonString = "{\"temparature\": " + temperatureStr + ", \"humidity\": " + humidityStr + ", \"isOpen\": " + isOpenStr + ", \"isRain\": " + is_rain + ", \"isProtected\": " + is_protectedStr + ",  \"isAlarm\": " + is_alarm + "}";
           Serial.println("JSON STRING: ");
           Serial.println(jsonString);
           int httpResponseCode = client.POST(jsonString);

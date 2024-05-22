@@ -97,7 +97,7 @@ boolean win_close()
   Serial.println(" ");
   servo1.attach(servo_pin);
   servo1.write(115);
- delay(800);
+  delay(1200);
   servo1.detach();
   if (is_window_open() == 1)
     {
@@ -214,15 +214,18 @@ void win_open()
           }
         client.end();
         client.begin(urlInput.c_str()); 
+       
         httpResponseCode = client.GET();
        if (httpResponseCode > 0) 
-        {
+        { 
             bool isOpen = true;
             std::string jsonStr = client.getString().c_str();
+            
             DynamicJsonDocument doc(1024); // створіть об'єкт JSON-документа
            DeserializationError error = deserializeJson(doc, jsonStr);
             is_protected = doc["isProtected"];
             but_flag = doc["isOpen"]; 
+            Serial.println(but_flag);
             
         } 
         else 

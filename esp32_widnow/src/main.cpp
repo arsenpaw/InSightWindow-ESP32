@@ -47,6 +47,33 @@ unsigned long currentTime = millis();
 unsigned long previousTime = 0;
 const long timeoutTime = 500;
 
+  
+boolean is_window_open()
+{
+  int alarm_read = digitalRead(magnet_switch);
+   Serial.print("IS WINDOW OPEN ");
+   Serial.print(alarm_read);
+   Serial.println(" ");
+  return alarm_read;
+}
+
+boolean win_close()
+{
+  Serial.print("FUNC CLOSE");
+  Serial.println(" ");
+  servo1.attach(servo_pin);
+  servo1.write(120);
+  delay(1200);
+  servo1.detach();
+  if (is_window_open() == 1)
+    {
+      return false;
+    }
+  else
+  {
+      return true;
+  }
+}
 void setup()
 {
   Serial.begin(115200);
@@ -62,17 +89,10 @@ void setup()
   Serial.println("IP address: ");
   Serial.println(WiFi.softAPIP());
   server.begin();
+  win_close();
 }
 
-  
-boolean is_window_open()
-{
-  int alarm_read = digitalRead(magnet_switch);
-   Serial.print("IS WINDOW OPEN ");
-   Serial.print(alarm_read);
-   Serial.println(" ");
-  return alarm_read;
-}
+
 
 void alarm()
 { 
@@ -91,30 +111,13 @@ void alarm()
 }
 
 
-boolean win_close()
-{
-  Serial.print("FUNC CLOSE");
-  Serial.println(" ");
-  servo1.attach(servo_pin);
-  servo1.write(115);
-  delay(1200);
-  servo1.detach();
-  if (is_window_open() == 1)
-    {
-      return false;
-    }
-  else
-  {
-      return true;
-  }
-}
 
 void win_open()
 {
     Serial.print("FUNC OPEN");
     Serial.println(" ");
     servo1.attach(servo_pin);
-    servo1.write(72);
+    servo1.write(75);
     delay(500); 
     servo1.detach();
 }

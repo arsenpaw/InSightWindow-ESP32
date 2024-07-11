@@ -1,7 +1,3 @@
-This is InSight window.
+This is InSightWindow IoT part.
 
-ALL PORTS DEFINE IN CONSTANTS
-
-Description
-Platfort: Arduino UNO
-Sensors: DHT11, LCD DISPLAY 16*2 + I2C, servo, open/close sensor and buzzer. 
+The code quality is currently bad due to limited C++ knowledge. I hope it will be improved in the future.

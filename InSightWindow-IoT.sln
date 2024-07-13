@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}"
 	ProjectSection(SolutionItems) = preProject
 		ExampleOfConnectToWifiAndParseResponce.cs = ExampleOfConnectToWifiAndParseResponce.cs
+		ExampleOfSendDataToServerUsingSignalR.cs = ExampleOfSendDataToServerUsingSignalR.cs
 	EndProjectSection
 EndProject
 Global

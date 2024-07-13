@@ -8,10 +8,9 @@ using InSightWindow_IoT;
 using System.Collections;
 using System.IO;
 using System;
-
+//connection to internet
 const string Ssid = "PC";
 const string Password = "123456789";
-// Give 60 seconds to the wifi join to happen
 CancellationTokenSource cs = new(60000);
 var success = WifiNetworkHelper.ConnectDhcp(Ssid, Password, requiresDateTime: true, token: cs.Token);
 if (!success)
@@ -28,7 +27,8 @@ else
 	try
 	{
 		Debug.WriteLine("Work");
-		using (HttpClient http = new HttpClient())
+        // sending request to server to get all devices
+        using (HttpClient http = new HttpClient())
 		{
 			var responce = http.Get("http://192.168.0.198:81/api/DevicesDb");
 			Debug.WriteLine();

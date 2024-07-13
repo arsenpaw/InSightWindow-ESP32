@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\Team_Arduino\\InSightWindow\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|D:\\Team_Arduino\\InSightWindow\\ExampleOfConnectToWifiAndParseResponce.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|solutionrelative:ExampleOfConnectToWifiAndParseResponce.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|D:\\Team_Arduino\\InSightWindow\\ExampleOfSendDataToServerUsingSignalR.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|solutionrelative:ExampleOfSendDataToServerUsingSignalR.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CDA5A76D-B92A-4C56-A3A0-3BAB5CF7CD0B}|InSightWindow-IoT\\InSightWindow-IoT.nfproj|d:\\team_arduino\\insightwindow\\insightwindow-iot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CDA5A76D-B92A-4C56-A3A0-3BAB5CF7CD0B}|InSightWindow-IoT\\InSightWindow-IoT.nfproj|solutionrelative:insightwindow-iot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -47,10 +55,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.System.Device.Wifi.1.5.85\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:packages\\nanoFramework.System.Device.Wifi.1.5.85\\readme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|D:\\Team_Arduino\\InSightWindow\\ExampleOfConnectToWifiAndParseResponce.cs||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|Examples{D89F544F-ABB0-4D98-82B7-FE5D8E841F8B}|solutionrelative:ExampleOfConnectToWifiAndParseResponce.cs||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -60,36 +64,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "ExampleOfSendDataToServerUsingSignalR.cs",
+              "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\ExampleOfSendDataToServerUsingSignalR.cs",
+              "RelativeDocumentMoniker": "ExampleOfSendDataToServerUsingSignalR.cs",
+              "ToolTip": "D:\\Team_Arduino\\InSightWindow\\ExampleOfSendDataToServerUsingSignalR.cs",
+              "RelativeToolTip": "ExampleOfSendDataToServerUsingSignalR.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-13T16:16:13.262Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Program.cs",
               "RelativeDocumentMoniker": "InSightWindow-IoT\\Program.cs",
               "ToolTip": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Program.cs",
               "RelativeToolTip": "InSightWindow-IoT\\Program.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAgwDUAAAAQAAAA",
+              "ViewState": "AQIAABIAAAAAAAAAAAAowCEAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-11T12:27:44.751Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
               "Title": "ExampleOfConnectToWifiAndParseResponce.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\ExampleOfConnectToWifiAndParseResponce.cs",
               "RelativeDocumentMoniker": "ExampleOfConnectToWifiAndParseResponce.cs",
               "ToolTip": "D:\\Team_Arduino\\InSightWindow\\ExampleOfConnectToWifiAndParseResponce.cs",
               "RelativeToolTip": "ExampleOfConnectToWifiAndParseResponce.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAADEAAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T13:14:45.836Z"
+              "WhenOpened": "2024-07-13T13:14:45.836Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "readme.txt",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.SignalR.Client.1.1.68\\readme.txt",
               "RelativeDocumentMoniker": "packages\\nanoFramework.SignalR.Client.1.1.68\\readme.txt",
@@ -101,7 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Window.cs",
               "DocumentMoniker": "D:\\InSightWindow Server\\InSightWindow-Service\\InSightWindowAPI\\InSightWindowAPI\\Models\\DeviceModel\\Window.cs",
               "RelativeDocumentMoniker": "..\\..\\InSightWindow Server\\InSightWindow-Service\\InSightWindowAPI\\InSightWindowAPI\\Models\\DeviceModel\\Window.cs",
@@ -113,7 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Window.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Models\\Window.cs",
               "RelativeDocumentMoniker": "InSightWindow-IoT\\Models\\Window.cs",
@@ -125,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "AllWindowDataDto.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Models\\AllWindowDataDto.cs",
               "RelativeDocumentMoniker": "InSightWindow-IoT\\Models\\AllWindowDataDto.cs",
@@ -137,7 +155,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "readme.txt",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.Json.2.2.122\\readme.txt",
               "RelativeDocumentMoniker": "packages\\nanoFramework.Json.2.2.122\\readme.txt",
@@ -149,7 +167,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "DeviceDto.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Models\\DeviceDto.cs",
               "RelativeDocumentMoniker": "InSightWindow-IoT\\Models\\DeviceDto.cs",
@@ -161,7 +179,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "DeviceDto.cs",
               "DocumentMoniker": "D:\\InSightWindow Server\\InSightWindow-Service\\InSightWindowAPI\\InSightWindowAPI\\Models\\Dto\\DeviceDto.cs",
               "RelativeDocumentMoniker": "..\\..\\InSightWindow Server\\InSightWindow-Service\\InSightWindowAPI\\InSightWindowAPI\\Models\\Dto\\DeviceDto.cs",
@@ -173,7 +191,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "readme.txt",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.System.Device.Wifi.1.5.85\\readme.txt",
               "RelativeDocumentMoniker": "packages\\nanoFramework.System.Device.Wifi.1.5.85\\readme.txt",
@@ -185,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "readme.txt",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.Hardware.Esp32.1.6.15\\readme.txt",
               "RelativeDocumentMoniker": "packages\\nanoFramework.Hardware.Esp32.1.6.15\\readme.txt",
@@ -197,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "readme.txt",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\packages\\nanoFramework.System.Net.Http.1.5.138\\readme.txt",
               "RelativeDocumentMoniker": "packages\\nanoFramework.System.Net.Http.1.5.138\\readme.txt",
@@ -209,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "D:\\Team_Arduino\\InSightWindow\\InSightWindow-IoT\\Properties\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "InSightWindow-IoT\\Properties\\AssemblyInfo.cs",

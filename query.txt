@@ -1,2 +1,0 @@
-{"arguments":["{\"temparature\": 78, \"humidity\": 44, \"isOpen\": \"string\", \"waterLevel\": 0, \"isProtected\": \"strtestdsfing\"}"],"target":"SendWindowStatus","type":1,  "protocol": "json",
-  "version": 1}

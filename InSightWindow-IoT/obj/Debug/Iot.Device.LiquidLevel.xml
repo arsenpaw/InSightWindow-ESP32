@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Iot.Device.LiquidLevel</name>
+    </assembly>
+    <members>
+        <member name="T:Iot.Device.LiquidLevel.LiquidLevelSwitch">
+            <summary>
+            Digital liquid level switch
+            </summary>
+        </member>
+        <member name="M:Iot.Device.LiquidLevel.LiquidLevelSwitch.#ctor(System.Int32,System.Device.Gpio.PinValue,System.Device.Gpio.GpioController,System.Device.Gpio.PinNumberingScheme,System.Boolean)">
+            <summary>Creates a new instance of the LiquidLevelSwitch.</summary>
+            <param name="dataPin">The data pin</param>
+            <param name="liquidPresentPinState">Data pin state representing liquid being present</param>
+            <param name="pinNumberingScheme">Use the logical or physical pin layout</param>
+            <param name="gpioController">A Gpio Controller if you want to use a specific one</param>
+            <param name="shouldDispose">True to dispose the Gpio Controller</param>
+        </member>
+        <member name="M:Iot.Device.LiquidLevel.LiquidLevelSwitch.IsLiquidPresent">
+            <summary>
+            Determines whether liquid is present.
+            </summary>
+            <returns><code>true</code> if liquid is present, otherwise <code>false</code>.</returns>
+        </member>
+        <member name="M:Iot.Device.LiquidLevel.LiquidLevelSwitch.Dispose">
+            <summary>
+            Dispose Buzzer.
+            </summary>
+        </member>
+        <member name="T:Iot.Device.LiquidLevel.Llc200d3sh">
+            <summary>
+            Optomax LLC200D3SH digital liquid level switch
+            </summary>
+        </member>
+        <member name="M:Iot.Device.LiquidLevel.Llc200d3sh.#ctor(System.Int32,System.Device.Gpio.GpioController,System.Device.Gpio.PinNumberingScheme,System.Boolean)">
+            <summary>Creates a new instance of the Llc200d3sh.</summary>
+            <param name="pin">The data pin</param>
+            <param name="pinNumberingScheme">Use the logical or physical pin layout</param>
+            <param name="gpioController">A Gpio Controller if you want to use a specific one</param>
+            <param name="shouldDispose">True to dispose the Gpio Controller</param>
+        </member>
+    </members>
+</doc>

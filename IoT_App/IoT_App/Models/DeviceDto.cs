@@ -3,7 +3,7 @@
 
 namespace IoT_App.Models
 {
-    public class Device
+    public abstract class DeviceDto
     {
 
         public Guid Id { get; set; } = Guid.NewGuid();

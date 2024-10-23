@@ -6,9 +6,9 @@ namespace IoT_App.Models
     public abstract class DeviceDto
     {
 
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public readonly Guid Id = Guid.NewGuid();
 
-        public string DeviceType { get; set; }
+        public const string DeviceType = "Window";
 
         public virtual Guid UserId { get; set; }
 

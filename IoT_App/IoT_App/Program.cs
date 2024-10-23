@@ -30,10 +30,8 @@ namespace HttpWebRequestSample
     {
         public static void NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
         {
-            if (!e.IsAvailable)
-            {
-                Power.RebootDevice();
-            }          
+            if (!e.IsAvailable)       
+                Power.RebootDevice();                
         }
 
         public static void Main()
@@ -41,23 +39,20 @@ namespace HttpWebRequestSample
             var esp32 = MicrocontrollerBuilder.Create()
                .ConnectToWifi("PC", "123456789")
                .EstablishServerConnection()
+               .AddDht11(new DHT11())
+               .AddWaterSensor(new WaterSensor())
                .Build();
+
+
+
             NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
             while (true)
             {
-                foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
-                {
-
-                    Console.WriteLine($"IP Address: {ni.IPv4Address}");
-                    Console.WriteLine($"Subnet Mask: {ni.IPv4SubnetMask}");
-                    Console.WriteLine($"Gateway: {ni.IPv4GatewayAddress}");
-                    Console.WriteLine($"Status: {ni.NetworkInterfaceType}");
-                }
+                var d = esp32.ComposeAllDataInfo();
+                Debug.WriteLine(JsonConvert.SerializeObject(d));
                 Thread.Sleep(1000);
             }
-            var dht11 = new DHT11();
-            esp32.SaveDataToLocalStorage(dht11, typeof(DHT11));
-            NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
+
         }
 
     }

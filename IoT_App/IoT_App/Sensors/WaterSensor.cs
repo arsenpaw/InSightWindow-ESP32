@@ -5,27 +5,24 @@ using System.Text;
 
 namespace IoT_App.Sensors
 {
-   public class DHT11 : DataComposeHandler, ISensor
+    public class WaterSensor : DataComposeHandler, ISensor
     {
-        public int Temparature { get; set; }
+        public int WaterLevel { get; set; }
 
-        public int Humidity { get; set; }
+        public bool IsRain { get; set; }
 
         public ISensor ReadData()
         {
-            Humidity = 50;
-            Temparature = 25;
+            WaterLevel = 50;
+            IsRain = true;
             return this;
         }
 
         public override object DataCompose(AllSensorData request)
         {
             ReadData();
-           request.Humidity = Humidity;
-            request.Temperature = Temparature;
+            request.IsRain = IsRain;
             return base.DataCompose(request);
         }
     }
-    
-    
 }

@@ -1,4 +1,5 @@
 ﻿using HttpWebRequestSample;
+using IoT_App.Sensors;
 using nanoFramework.Networking;
 using System;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace IoT_App.Builder
     {
         private ESP32 _product;
 
+        
 
         public MicrocontrollerBuilder()
         {
@@ -22,6 +24,16 @@ namespace IoT_App.Builder
             return new MicrocontrollerBuilder();
         }
 
+        public IBuilder AddDht11(DHT11 sensor)
+        {
+            _product.DHT11 = sensor;
+            return this;
+        }
+        public IBuilder AddWaterSensor(WaterSensor sensor)
+        {
+            _product.WaterSensor = sensor;
+            return this;
+        }
         public IBuilder EstablishServerConnection()
         {
 

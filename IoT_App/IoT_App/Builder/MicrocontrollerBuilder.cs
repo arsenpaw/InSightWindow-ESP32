@@ -1,8 +1,12 @@
 ﻿using HttpWebRequestSample;
 using IoT_App.Sensors;
+using nanoFramework.Json;
 using nanoFramework.Networking;
+using nanoFramework.SignalR.Client;
 using System;
 using System.Diagnostics;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 
@@ -34,9 +38,21 @@ namespace IoT_App.Builder
             _product.WaterSensor = sensor;
             return this;
         }
-        public IBuilder EstablishServerConnection()
+        private static void HubConnection_Closed(object sender, SignalrEventMessageArgs message)
         {
+            Debug.WriteLine($"closed received with message: {message.Message}");
+        }
+        public IBuilder EstablishServerConnection(string url,HubConnectionOptions options)
+        {
+            _product.HubConnection = new HubConnection(url, options: options);
+            var hubConnection = _product.HubConnection;
+            do
+            {
+               hubConnection.Start();
+                Debug.WriteLine(hubConnection.State.ToString());
+            } while (hubConnection.State != HubConnectionState.Connected);
 
+            hubConnection.Closed += HubConnection_Closed;
             return this;
         }
 

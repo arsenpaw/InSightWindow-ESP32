@@ -1,5 +1,6 @@
 ﻿using HttpWebRequestSample;
 using IoT_App.Sensors;
+using nanoFramework.SignalR.Client;
 using System;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace IoT_App.Builder
 {
     public interface IBuilder
     {
-        IBuilder EstablishServerConnection();
+        IBuilder EstablishServerConnection(string url, HubConnectionOptions options);
 
         IBuilder ConnectToWifi(string ssid, string password);
 

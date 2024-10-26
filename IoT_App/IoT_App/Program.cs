@@ -18,7 +18,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-
+using IoT_App;
 #if HAS_WIFI
 using System.Device.Wifi;
 #endif
@@ -36,9 +36,20 @@ namespace HttpWebRequestSample
 
         public static void Main()
         {
+            X509Certificate rootCACert = new X509Certificate(Appsettiings.dstRootCAX3);
+
             var esp32 = MicrocontrollerBuilder.Create()
                .ConnectToWifi("PC", "123456789")
-               .EstablishServerConnection()
+               .EstablishServerConnection(
+                Appsettiings.HUB_URL,
+               new HubConnectionOptions()
+               {
+                   Certificate = rootCACert,
+                   SslVerification = SslVerification.NoVerification,
+                   SslProtocol = SslProtocols.Tls12,
+                   Reconnect = true,
+               }
+               )
                .AddDht11(new DHT11())
                .AddWaterSensor(new WaterSensor())
                .Build();

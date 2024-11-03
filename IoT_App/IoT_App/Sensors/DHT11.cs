@@ -20,7 +20,7 @@ namespace IoT_App.Sensors
 
         public override object DataCompose(AllSensorData request)
         {
-            ReadData();
+            this.ReadData();
            request.Humidity = Humidity;
             request.Temperature = Temparature;
             return base.DataCompose(request);

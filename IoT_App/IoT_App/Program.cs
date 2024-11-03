@@ -19,6 +19,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using IoT_App;
+using IoT_App.Services;
 #if HAS_WIFI
 using System.Device.Wifi;
 #endif
@@ -28,17 +29,14 @@ namespace HttpWebRequestSample
 
     public class Program
     {
-        public static void NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
-        {
-            if (!e.IsAvailable)       
-                Power.RebootDevice();                
-        }
+
 
         public static void Main()
         {
             X509Certificate rootCACert = new X509Certificate(Appsettiings.dstRootCAX3);
 
             var esp32 = MicrocontrollerBuilder.Create()
+                .AddAesEncrypting(new AesService("123456789"))
                .ConnectToWifi("PC", "123456789")
                .EstablishServerConnection(
                 Appsettiings.HUB_URL,
@@ -54,9 +52,14 @@ namespace HttpWebRequestSample
                .AddWaterSensor(new WaterSensor())
                .Build();
 
+            string t  = "testWorTestassfasfassafadg";
+            Debug.WriteLine($"Original: {t}");
+            var encrypted = esp32.AesService.EncryptData(t);
+            Debug.WriteLine($"Byte: {encrypted}");
+            var decrypted = esp32.AesService.DecryptData(encrypted);
+            Debug.WriteLine($"Encrypted: {decrypted}");
 
 
-            NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
             while (true)
             {
                 var d = esp32.ComposeAllDataInfo();

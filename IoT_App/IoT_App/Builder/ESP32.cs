@@ -1,9 +1,11 @@
 ﻿using IoT_App.Models;
 using IoT_App.Sensors;
+using IoT_App.Services;
 using nanoFramework.Json;
 using nanoFramework.SignalR.Client;
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace IoT_App.Builder
@@ -18,7 +20,7 @@ namespace IoT_App.Builder
 
         public HubConnection HubConnection { get; set; }
 
-
+        public IAesService AesService { get; set; }
 
         public void SendDataToServer()
         {

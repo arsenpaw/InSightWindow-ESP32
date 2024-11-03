@@ -34,6 +34,8 @@
     <Compile Include="Sensors\DHT11.cs" />
     <Compile Include="Sensors\ISensor.cs" />
     <Compile Include="Sensors\WaterSensor.cs" />
+    <Compile Include="Services\AesService.cs" />
+    <Compile Include="Services\IAesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
@@ -81,9 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="configuration.json" />

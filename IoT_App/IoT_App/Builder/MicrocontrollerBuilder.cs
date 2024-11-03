@@ -1,10 +1,13 @@
 ﻿using HttpWebRequestSample;
 using IoT_App.Sensors;
+using IoT_App.Services;
 using nanoFramework.Json;
 using nanoFramework.Networking;
+using nanoFramework.Runtime.Native;
 using nanoFramework.SignalR.Client;
 using System;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -38,6 +41,11 @@ namespace IoT_App.Builder
             _product.WaterSensor = sensor;
             return this;
         }
+        public IBuilder AddAesEncrypting(IAesService aesService)
+        {
+            _product.AesService = aesService;
+            return this;
+        }
         private static void HubConnection_Closed(object sender, SignalrEventMessageArgs message)
         {
             Debug.WriteLine($"closed received with message: {message.Message}");
@@ -48,11 +56,12 @@ namespace IoT_App.Builder
             var hubConnection = _product.HubConnection;
             do
             {
+                Debug.WriteLine("Try to connect to hub");
                hubConnection.Start();
                 Debug.WriteLine(hubConnection.State.ToString());
             } while (hubConnection.State != HubConnectionState.Connected);
-
             hubConnection.Closed += HubConnection_Closed;
+            Debug.WriteLine("Connected to hub");
             return this;
         }
 
@@ -67,9 +76,14 @@ namespace IoT_App.Builder
                 Debug.WriteLine($"Can't get a proper IP address and DateTime, error: {NetworkHelper.Status}.");
             }
             Debug.WriteLine("Connected to Wifi");
+            NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
             return this;
         }
-
+        private void NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+        {
+            if (!e.IsAvailable)
+                Power.RebootDevice();
+        }
 
         public ESP32 Build()
         {

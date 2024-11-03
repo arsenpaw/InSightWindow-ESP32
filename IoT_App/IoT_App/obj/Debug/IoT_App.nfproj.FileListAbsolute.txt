@@ -1,5 +1,4 @@
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.exe
-D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.bin
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.pdb
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.pe
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.pdbx
@@ -9,8 +8,6 @@ D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\mscorlib.dll
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\mscorlib.xml
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.nfproj.AssemblyReference.cache
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.nfproj.CoreCompileInputs.cache
-D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pe
-D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pdbx
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.nfproj.Up2Date
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.exe
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pdb
@@ -94,3 +91,6 @@ D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.Runtime.Na
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.Runtime.Native.xml
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\nanoFramework.Runtime.Native.dll
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\nanoFramework.Runtime.Native.xml
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.bin
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pe
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pdbx

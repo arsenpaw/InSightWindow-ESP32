@@ -54,7 +54,8 @@ namespace IoT_App.Builder
         public IBuilder EstablishServerConnection(string url,HubConnectionOptions options)
         {
             var headers = new ClientWebSocketHeaders();
-            headers[ClaimTypes.NameIdentifier] = AppSettings.Id.ToString();
+            headers[ClaimTypes.Name] = AppSettings.Id.ToString();
+            headers["DeviceId"] = AppSettings.Id.ToString();
             _product.HubConnection = new HubConnection(url, options: options, headers: headers);
             var hubConnection = _product.HubConnection;
             do

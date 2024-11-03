@@ -24,6 +24,7 @@
     <Compile Include="Builder\MicrocontrollerBuilder.cs" />
     <Compile Include="ChainOfResponcebility\DataComposeHandler.cs" />
     <Compile Include="ChainOfResponcebility\IHandler.cs" />
+    <Compile Include="Claim\ClaimType.cs" />
     <Compile Include="Enums\Command.cs" />
     <Compile Include="Models\AllSensorData.cs" />
     <Compile Include="Models\Command.cs" />

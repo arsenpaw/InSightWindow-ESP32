@@ -1,6 +1,7 @@
 ﻿namespace IoT_App.Models
 {
     public class AllSensorData
+
     {
         private int _temperature;
         private int _humidity;

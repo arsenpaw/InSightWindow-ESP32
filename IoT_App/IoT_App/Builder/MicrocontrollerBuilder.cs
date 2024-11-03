@@ -9,10 +9,11 @@ using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Net.Security;
+using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
-
+using System.Security.Claims;
 namespace IoT_App.Builder
 {
     public class MicrocontrollerBuilder : IBuilder
@@ -52,7 +53,9 @@ namespace IoT_App.Builder
         }
         public IBuilder EstablishServerConnection(string url,HubConnectionOptions options)
         {
-            _product.HubConnection = new HubConnection(url, options: options);
+            var headers = new ClientWebSocketHeaders();
+            headers[ClaimTypes.NameIdentifier] = AppSettings.Id.ToString();
+            _product.HubConnection = new HubConnection(url, options: options, headers: headers);
             var hubConnection = _product.HubConnection;
             do
             {

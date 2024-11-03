@@ -33,13 +33,13 @@ namespace HttpWebRequestSample
 
         public static void Main()
         {
-            X509Certificate rootCACert = new X509Certificate(Appsettiings.dstRootCAX3);
+            X509Certificate rootCACert = new X509Certificate(AppSettings.dstRootCAX3);
 
             var esp32 = MicrocontrollerBuilder.Create()
-                .AddAesEncrypting(new AesService("123456789"))
+                .AddAesEncrypting(new AesService("AXProduct2024"))
                .ConnectToWifi("PC", "123456789")
                .EstablishServerConnection(
-                Appsettiings.HUB_URL,
+                AppSettings.HUB_URL,
                new HubConnectionOptions()
                {
                    Certificate = rootCACert,
@@ -57,15 +57,19 @@ namespace HttpWebRequestSample
             var encrypted = esp32.AesService.EncryptData(t);
             Debug.WriteLine($"Byte: {encrypted}");
             var decrypted = esp32.AesService.DecryptData(encrypted);
-            Debug.WriteLine($"Encrypted: {decrypted}");
+            Debug.WriteLine($"Encrypted:{decrypted}");
 
-
-            while (true)
-            {
+            int i = 0;
+            do 
+            {   
+                Thread.Sleep(1000);
                 var d = esp32.ComposeAllDataInfo();
                 Debug.WriteLine(JsonConvert.SerializeObject(d));
-                Thread.Sleep(1000);
+                 esp32.SendDataToServer();
+                i++;
+
             }
+            while (i > 25);
 
         }
 

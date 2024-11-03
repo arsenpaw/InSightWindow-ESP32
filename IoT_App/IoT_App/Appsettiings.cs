@@ -5,10 +5,14 @@ using System.Text;
 
 namespace IoT_App
 {
-    public static class Appsettiings
+    public static class AppSettings
+
     {
         public const string HUB_URL = "https://axproduct-server.azurewebsites.net/client-hub";
 
+        public static readonly Guid Id = new Guid("6C1D08D1-4BAC-44DA-BDBA-3165799C0497");
+
+        public const string DeviceType = "Window";
 
         public const string dstRootCAX3 =
 @"-----BEGIN CERTIFICATE-----

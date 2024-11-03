@@ -7,14 +7,12 @@ namespace IoT_App.Services
     public class AesService : IAesService
     {
         public Aes Aes { get; set; }
-        /// <summary>
-        /// Paswward length must be divisible by 16
-        /// </summary>
-        /// <param name="password"></param>
+
         public AesService(string password)
         {
             Aes = new Aes(CipherMode.CBC);
             Aes.Key = _getProperByteData(Encoding.UTF8.GetBytes(password));
+            Aes.IV = _getProperByteData(Encoding.UTF8.GetBytes(password));
         }
 
         private byte[] _getProperByteData(byte[] oldArray)

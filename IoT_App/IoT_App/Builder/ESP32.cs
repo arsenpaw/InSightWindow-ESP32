@@ -5,6 +5,7 @@ using nanoFramework.Json;
 using nanoFramework.SignalR.Client;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -25,7 +26,8 @@ namespace IoT_App.Builder
         public void SendDataToServer()
         {
             string deserialized = JsonConvert.SerializeObject(AllSensorData);
-            AsyncResult dashboardClientConnected = HubConnection.InvokeCoreAsync("SendWidnowStatusToClient", null, new object[] { deserialized });
+            var res = HubConnection.InvokeCore("ReceiveDataFromEsp32", typeof(int), new object[] { AesService.EncryptData(deserialized) });
+            Debug.WriteLine($"SendDataToServer: {res}");
 
         }
         public void SubscribeToServerReceiveData()

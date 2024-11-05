@@ -26,7 +26,10 @@ namespace IoT_App.Builder
         public void SendDataToServer()
         {
             string deserialized = JsonConvert.SerializeObject(AllSensorData);
-            var res = HubConnection.InvokeCore("ReceiveDataFromEsp32", typeof(int), new object[] { AesService.EncryptData(deserialized) });
+            var t = AesService.EncryptData(deserialized);
+            var g = Convert.ToBase64String(t);
+         
+            var res = HubConnection.InvokeCoreAsync("ReceiveDataFromEsp32", typeof(int), new object[] { g });
             Debug.WriteLine($"SendDataToServer: {res}");
 
         }

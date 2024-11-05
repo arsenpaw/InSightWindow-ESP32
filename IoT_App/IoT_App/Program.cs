@@ -36,7 +36,7 @@ namespace HttpWebRequestSample
             X509Certificate rootCACert = new X509Certificate(AppSettings.dstRootCAX3);
 
             var esp32 = MicrocontrollerBuilder.Create()
-                .AddAesEncrypting(new AesService("AXProduct2024"))
+                .AddAesEncrypting(new AesService("1234567890ABCDEF"))
                .ConnectToWifi("PC", "123456789")
                .EstablishServerConnection(
                 AppSettings.HUB_URL,

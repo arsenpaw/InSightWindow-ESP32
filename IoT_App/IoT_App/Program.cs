@@ -65,7 +65,7 @@ namespace HttpWebRequestSample
                 Thread.Sleep(1000);
                 var d = esp32.ComposeAllDataInfo();
                 Debug.WriteLine(JsonConvert.SerializeObject(d));
-                 esp32.SendDataToServer();
+                 esp32.SendDataFromSensorToServer();
                 i++;
 
             }

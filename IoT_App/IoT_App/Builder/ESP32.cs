@@ -23,14 +23,13 @@ namespace IoT_App.Builder
 
         public IAesService AesService { get; set; }
 
-        public void SendDataToServer()
+        public void SendDataFromSensorToServer()
         {
             string deserialized = JsonConvert.SerializeObject(AllSensorData);
-            var t = AesService.EncryptData(deserialized);
-            var g = Convert.ToBase64String(t);
-         
-            var res = HubConnection.InvokeCoreAsync("ReceiveDataFromEsp32", typeof(int), new object[] { g });
-            Debug.WriteLine($"SendDataToServer: {res}");
+            var encryptedBytes = AesService.EncryptData(deserialized);
+            var encryptedBase64 = Convert.ToBase64String(encryptedBytes);
+            var res = HubConnection.InvokeCoreAsync("ReceiveDataFromEsp32", typeof(int), new object[] { encryptedBase64 });
+            Debug.WriteLine($"SendDataFromSensorToServer: {res.Value}");
 
         }
         public void SubscribeToServerReceiveData()

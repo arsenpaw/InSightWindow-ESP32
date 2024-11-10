@@ -9,9 +9,11 @@ namespace IoT_App
 
     {
         public const string HUB_URL1 = "https://axproduct-server.azurewebsites.net/client-hub";
-        public const string HUB_URL = "https://192.168.1.13/client-hub";
+        public const string HUB_URL = "https://192.168.1.14/client-hub";
 
         public static readonly Guid Id = new Guid("6C1D08D1-4BAC-44DA-BDBA-3165799C0497");
+
+        public const string AesPasswrod = "1234567890ABCDEF";
 
         public const string DeviceType = "Window";
 

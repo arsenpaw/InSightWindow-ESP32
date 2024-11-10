@@ -1,88 +1,71 @@
-﻿using HttpWebRequestSample;
-using IoT_App.Sensors;
+﻿using IoT_App.Sensors;
 using IoT_App.Services;
-using nanoFramework.Json;
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Networking;
-using nanoFramework.Runtime.Native;
 using nanoFramework.SignalR.Client;
 using System;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
-using System.Net.Security;
 using System.Net.WebSockets;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
 using System.Security.Claims;
+using System.Threading;
+
 namespace IoT_App.Builder
 {
-    public class MicrocontrollerBuilder : IBuilder
+    public class MicrocontrollerBuilder 
     {
-        private ESP32 _product;
+        private readonly IServiceCollection _services;
 
-        private readonly IAesService _aesService;
-
-        public MicrocontrollerBuilder(IAesService aesService)
+        public MicrocontrollerBuilder(IServiceCollection services)
         {
-            _product = new ESP32();
-            _aesService = aesService;
+            _services = services;
         }
 
-        public IBuilder AddDht11(DHT11 sensor)
+        public static MicrocontrollerBuilder CreateBuilder(IServiceCollection services)
         {
-            _product.DHT11 = sensor;
+            return new MicrocontrollerBuilder(services);
+        }
+
+        public MicrocontrollerBuilder AddDht11()
+        {
+            _services.AddSingleton(typeof(DHT11), typeof(DHT11));
             return this;
         }
-        public IBuilder AddWaterSensor(WaterSensor sensor)
+
+        public MicrocontrollerBuilder AddWaterSensor()
         {
-            _product.WaterSensor = sensor;
+            _services.AddSingleton(typeof(WaterSensor), typeof(WaterSensor));
             return this;
         }
-        private static void HubConnection_Closed(object sender, SignalrEventMessageArgs message)
-        {
-            Debug.WriteLine($"closed received with message: {message.Message}");
-        }
-        public IBuilder EstablishServerConnection(string url,HubConnectionOptions options)
+
+        public MicrocontrollerBuilder ConfigureServiceConnection(string url, HubConnectionOptions options)
         {
             var headers = new ClientWebSocketHeaders();
             headers[ClaimTypes.DeviceId] = AppSettings.Id.ToString();
-            _product.HubConnection = new HubConnection(url, options: options, headers: headers);
-            var hubConnection = _product.HubConnection;
-            do
-            {
-                Debug.WriteLine("Try to connect to hub");
-               hubConnection.Start();
-                Debug.WriteLine(hubConnection.State.ToString());
-            } while (hubConnection.State != HubConnectionState.Connected);
-            hubConnection.Closed += HubConnection_Closed;
-            Debug.WriteLine("Connected to hub");
+            _services.AddSingleton(typeof(HubConnection), new HubConnection(url,headers,options));
             return this;
         }
 
-        public IBuilder ConnectToWifi(string ssid, string password)
+        public MicrocontrollerBuilder ConnectToWifi(string ssid, string password)
         {
             bool success = false;
             CancellationTokenSource cs = new(5000);
             Debug.WriteLine("Connecting to Wifi");
-            success = WifiNetworkHelper.ConnectDhcp(ssid, password,requiresDateTime: true);
+            success = WifiNetworkHelper.ConnectDhcp(ssid, password, requiresDateTime: true);
             if (!success)
             {
                 Debug.WriteLine($"Can't get a proper IP address and DateTime, error: {NetworkHelper.Status}.");
             }
             Debug.WriteLine("Connected to Wifi");
-            NetworkChange.NetworkAvailabilityChanged += NetworkAvailabilityChanged;
             return this;
-        }
-        private void NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
-        {
-            if (!e.IsAvailable)
-                Power.RebootDevice();
         }
 
         public ESP32 Build()
         {
-            return _product;
-        }
+            _services.AddSingleton(typeof(ESP32));
+            var serviceProvider = _services.BuildServiceProvider();
 
+            return (ESP32)serviceProvider.GetRequiredService(typeof(ESP32));
+        }
     }
 }

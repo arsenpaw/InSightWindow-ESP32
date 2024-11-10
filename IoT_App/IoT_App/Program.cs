@@ -1,51 +1,51 @@
-//
-// Copyright (c) .NET Foundation and Contributors
-// See LICENSE file in the project root for full license information.
-//
-
-using IoT_App.Builder;
-using IoT_App.Models;
-using IoT_App.Sensors;
-using nanoFramework.Json;
-using nanoFramework.Networking;
-using nanoFramework.Runtime.Native;
-using nanoFramework.SignalR.Client;
-using System;
-using System.Diagnostics;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
 using IoT_App;
 using IoT_App.Services;
+using IoT_App.Builder;
 using Microsoft.Extensions.DependencyInjection;
-#if HAS_WIFI
-using System.Device.Wifi;
-#endif
+using System.Security.Cryptography.X509Certificates;
+using nanoFramework.SignalR.Client;
+using System.Net.Security;
+using System.Diagnostics;
 
 namespace HttpWebRequestSample
-{ 
-
+{
     public class Program
     {
-
         public static void Main()
         {
-            var services = ConfigureServices();
-            var application = (Application)services.GetRequiredService(typeof(Application));
-            application.Run();
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+
+            var builder = MicrocontrollerBuilder.CreateBuilder(services);
+
+            builder
+                .AddDht11()
+                .AddWaterSensor()
+                .ConnectToWifi("PC", "123456789")
+                .ConfigureServiceConnection(
+                    AppSettings.HUB_URL,
+                    new HubConnectionOptions()
+                    {
+                        Certificate = new X509Certificate(AppSettings.dstRootCAX3),
+                        SslVerification = SslVerification.NoVerification,
+                        SslProtocol = SslProtocols.Tls12,
+                        Reconnect = true,
+                    });
+
+            var esp32 = builder.Build();
+            esp32.StartConnection();
+            esp32.SubscribeToServerReceiveData();
+            
+            var data = esp32.ComposeAllDataInfo();
+            esp32.SendDataFromSensorToServer(data);
+
+            Debug.WriteLine("ESP32 is ready to send data to server");
+
         }
-        private static ServiceProvider ConfigureServices()
+
+        private static void ConfigureServices(IServiceCollection services)
         {
-            return new ServiceCollection()
-                .AddSingleton(typeof(Application))
-                .AddSingleton(typeof(IAesService), typeof(AesService))
-                .AddSingleton(typeof(IBuilder), typeof(MicrocontrollerBuilder))
-                .BuildServiceProvider();
+            services.AddSingleton(typeof(IAesService), typeof(AesService));
         }
     }
-
- }
-
+}

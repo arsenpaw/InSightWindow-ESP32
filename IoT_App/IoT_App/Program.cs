@@ -6,6 +6,8 @@ using System.Security.Cryptography.X509Certificates;
 using nanoFramework.SignalR.Client;
 using System.Net.Security;
 using System.Diagnostics;
+using System.Device.Adc;
+using System.Threading;
 
 namespace HttpWebRequestSample
 {
@@ -14,15 +16,14 @@ namespace HttpWebRequestSample
         public static void Main()
         {
             var services = new ServiceCollection();
-            ConfigureServices(services);
 
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
-
-            builder
-                .AddDht11()
-                .AddWaterSensor()
-                .ConnectToWifi("PC", "123456789")
-                .ConfigureServiceConnection(
+            builder.Services.AddSingleton(typeof(AdcController));
+            builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
+            builder.AddDht11();
+            builder.AddWaterSensor();
+            builder.ConnectToWifi("PC", "123456789");
+            builder.ConfigureServiceConnection(
                     AppSettings.HUB_URL,
                     new HubConnectionOptions()
                     {
@@ -36,16 +37,20 @@ namespace HttpWebRequestSample
             esp32.StartConnection();
             esp32.SubscribeToServerReceiveData();
             
-            var data = esp32.ComposeAllDataInfo();
-            esp32.SendDataFromSensorToServer(data);
 
-            Debug.WriteLine("ESP32 is ready to send data to server");
-
+            while (true)
+            {
+                var data = esp32.ComposeAllDataInfo();
+                esp32.SendDataFromSensorToServer(data);
+                Thread.Sleep(5000);
+                Debug.WriteLine("ESP32 is ready to send data to server");
+            }
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(typeof(IAesService), typeof(AesService));
+
         }
     }
 }

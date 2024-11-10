@@ -13,6 +13,9 @@ namespace IoT_App.Builder
 {
     public class ESP32
     {
+
+        public IAesService AesService { get; set; }
+
         public DHT11 DHT11 { get; set;}
 
         public WaterSensor WaterSensor { get; set; }
@@ -21,7 +24,7 @@ namespace IoT_App.Builder
 
         public HubConnection HubConnection { get; set; }
 
-        public IAesService AesService { get; set; }
+
 
         public void SendDataFromSensorToServer()
         {

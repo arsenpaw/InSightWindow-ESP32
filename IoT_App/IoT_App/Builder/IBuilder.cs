@@ -17,8 +17,6 @@ namespace IoT_App.Builder
 
         IBuilder AddWaterSensor(WaterSensor sensor);
 
-        IBuilder AddAesEncrypting(IAesService aesService);
-
         ESP32 Build();
     }
 }

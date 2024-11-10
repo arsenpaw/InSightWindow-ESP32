@@ -8,12 +8,12 @@ namespace IoT_App.Services
     {
         public Aes Aes { get; set; }
 
-        public AesService(string password)
+        public AesService()
         {
             Aes = new Aes(CipherMode.CBC);
          
-            Aes.Key = _getProperByteData(Encoding.UTF8.GetBytes(password));
-            Aes.IV = _getProperByteData(Encoding.UTF8.GetBytes(password));
+            Aes.Key = _getProperByteData(Encoding.UTF8.GetBytes(AppSettings.AesPasswrod));
+            Aes.IV = _getProperByteData(Encoding.UTF8.GetBytes(AppSettings.AesPasswrod));
             
         }
 

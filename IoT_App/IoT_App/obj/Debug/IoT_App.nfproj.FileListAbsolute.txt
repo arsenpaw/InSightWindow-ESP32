@@ -94,3 +94,9 @@ D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\nanoFramework.Runtime.Na
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\IoT_App.bin
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pe
 D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\IoT_App.pdbx
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.DependencyInjection.pe
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.DependencyInjection.pdbx
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.DependencyInjection.dll
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\bin\Debug\nanoFramework.DependencyInjection.xml
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\nanoFramework.DependencyInjection.dll
+D:\Team_Arduino\InSightWindow\IoT_App\IoT_App\obj\Debug\nanoFramework.DependencyInjection.xml

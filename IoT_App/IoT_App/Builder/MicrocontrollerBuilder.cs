@@ -20,16 +20,12 @@ namespace IoT_App.Builder
     {
         private ESP32 _product;
 
-        
+        private readonly IAesService _aesService;
 
-        public MicrocontrollerBuilder()
+        public MicrocontrollerBuilder(IAesService aesService)
         {
             _product = new ESP32();
-        }
-
-        public static MicrocontrollerBuilder Create()
-        {
-            return new MicrocontrollerBuilder();
+            _aesService = aesService;
         }
 
         public IBuilder AddDht11(DHT11 sensor)
@@ -40,11 +36,6 @@ namespace IoT_App.Builder
         public IBuilder AddWaterSensor(WaterSensor sensor)
         {
             _product.WaterSensor = sensor;
-            return this;
-        }
-        public IBuilder AddAesEncrypting(IAesService aesService)
-        {
-            _product.AesService = aesService;
             return this;
         }
         private static void HubConnection_Closed(object sender, SignalrEventMessageArgs message)

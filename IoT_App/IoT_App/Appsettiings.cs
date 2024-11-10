@@ -13,6 +13,8 @@ namespace IoT_App
 
         public static readonly Guid Id = new Guid("6C1D08D1-4BAC-44DA-BDBA-3165799C0497");
 
+        public const string AesPasswrod = "1234567890ABCDEF";
+
         public const string DeviceType = "Window";
 
         public const string dstRootCAX3 =

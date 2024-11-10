@@ -41,6 +41,11 @@ namespace IoT_App.Builder
 
         public void SendDataFromSensorToServer(AllSensorData data)
         {
+            if (!AllSensorData.IsDataChanged)
+            {
+                Debug.WriteLine("No data changed");
+                return;
+            }
             string deserialized = JsonConvert.SerializeObject(data);
             var encryptedBytes = AesService.EncryptData(deserialized);
             var encryptedBase64 = Convert.ToBase64String(encryptedBytes);

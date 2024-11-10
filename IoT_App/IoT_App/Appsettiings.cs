@@ -6,10 +6,14 @@ using System.Text;
 namespace IoT_App
 {
     public static class AppSettings
-
     {
         public const string HUB_URL1 = "https://axproduct-server.azurewebsites.net/client-hub";
         public const string HUB_URL = "https://192.168.1.14/client-hub";
+
+        // this is D34 real pin
+        public const int ADC_LIQUID_SENSOR_PIN = 6;
+
+        public const int WATTER_LEVEL_VALUE = 1000;
 
         public static readonly Guid Id = new Guid("6C1D08D1-4BAC-44DA-BDBA-3165799C0497");
 

@@ -10,12 +10,13 @@ using System.Diagnostics;
 
 namespace IoT_App.Observer
 {
-    public class EventPublisher : IEventObserver
+    public class EventObserver : IEventObserver
+
     {
         HubConnection _hubConnection { get; set; }
         private bool _isReconnecting = false;
 
-        public EventPublisher(HubConnection hubConnection)
+        public EventObserver(HubConnection hubConnection)
         {
             _hubConnection = hubConnection;
         }

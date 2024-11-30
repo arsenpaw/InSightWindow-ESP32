@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IoT_App.Observer
 {
-    public interface IEventPublisher
+    public interface IEventObserver
     {
         public void EnableEventHandling();
     }

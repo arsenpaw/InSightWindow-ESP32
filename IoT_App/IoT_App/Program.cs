@@ -25,7 +25,7 @@ namespace HttpWebRequestSample
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
-            services.AddSingleton(typeof(IEventObserver), typeof(EventPublisher));
+            services.AddSingleton(typeof(IEventObserver), typeof(EventObserver));
             builder.Services.AddCommandServices();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);

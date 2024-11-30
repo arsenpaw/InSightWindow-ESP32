@@ -59,13 +59,20 @@ namespace IoT_App.Builder
         }
         public void SubscribeToServerReceiveData()
         {
-            HubConnection.On("ReceiveCommand",new Type []{ typeof(object) }, (sender, args) =>
+            HubConnection.On("ReceiveCommand",new Type []{ typeof(string) }, (sender, args) =>
             {
-                var command = args[0] as CommandDto;
-                if (command == null)
-                    Debug.WriteLine("commend is null");
-                var commandService = ServiceProvider.GetServiceByCommand(command.CommandType);
-                commandService.Execute();
+                try
+                {
+                    var command = (CommandDto)JsonConvert.DeserializeObject(args[0] as string, typeof(CommandDto));
+                    if (command == null)
+                        Debug.WriteLine("commend is null");
+                    var commandService = ServiceProvider.GetServiceByCommand(command.Command);
+                    commandService.Execute();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             });
         }
 

@@ -11,14 +11,15 @@ using System.Threading;
 using IoT_App.Motor;
 using static IoT_App.AppSettings;
 using IoT_App.Command;
+using nanoFramework.Runtime.Events;
+using IoT_App.Observer;
 namespace HttpWebRequestSample
 {
     public class Program
     {
+        //TODO State pattern to change the state of esp32
         public static void Main()
         {
-
-
             var services = new ServiceCollection();
 
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
@@ -59,7 +60,9 @@ namespace HttpWebRequestSample
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(typeof(IAesService), typeof(AesService));
-
+            //services.AddTransient(typeof(IEventPublisher), typeof(EventPublisher));
+            //services.AddTransient(typeof(EventObserver));
         }
+
     }
 }

@@ -6,6 +6,6 @@ namespace IoT_App.Command
 {
     public abstract class CommandDto
     {
-        public CommandEnum CommandType { get; set; } 
+        public CommandEnum Command { get; set; } 
     }
 }

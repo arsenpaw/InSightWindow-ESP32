@@ -13,7 +13,7 @@ namespace IoT_App.Command
         static  Hashtable _services = new Hashtable()
         {
             { CommandEnum.Open, typeof(OpenCommand) },
-            //{ CommandEnum.Close, typeof(CloseCommand) },
+            { CommandEnum.Close, typeof(CloseCommand) },
             //{ CommandEnum.StopAlarm, typeof(StopAlarmCommand) },
             //{ CommandEnum.StartAlarm, typeof(StartAlarmCommand) },
             //{ CommandEnum.Stop, typeof(StopCommand) }

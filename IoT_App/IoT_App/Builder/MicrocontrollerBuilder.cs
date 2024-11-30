@@ -1,4 +1,6 @@
-﻿using IoT_App.Sensors;
+﻿using Iot.Device.Uln2003;
+using IoT_App.Motor;
+using IoT_App.Sensors;
 using IoT_App.Services;
 using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Networking;
@@ -43,12 +45,16 @@ namespace IoT_App.Builder
             Services.AddSingleton(typeof(HubConnection), new HubConnection(url,headers,options));
         }
 
+        public void AddStepMotor(int pin1, int pin2, int pin3, int pin4)
+        {
+            Services.AddSingleton(typeof(IStepMotorService), new StepMotor(pin1, pin2, pin3, pin4));
+        }
+
         public void ConnectToWifi(string ssid, string password)
         {
-            bool success = false;
             CancellationTokenSource cs = new(5000);
             Debug.WriteLine("Connecting to Wifi");
-            success = WifiNetworkHelper.ConnectDhcp(ssid, password, requiresDateTime: true);
+            bool success = WifiNetworkHelper.ConnectDhcp(ssid, password, requiresDateTime: true);
             if (!success)
             {
                 Debug.WriteLine($"Can't get a proper IP address and DateTime, error: {NetworkHelper.Status}.");

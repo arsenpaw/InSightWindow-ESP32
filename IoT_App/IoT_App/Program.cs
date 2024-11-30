@@ -8,23 +8,27 @@ using System.Net.Security;
 using System.Diagnostics;
 using System.Device.Adc;
 using System.Threading;
-
+using IoT_App.Motor;
+using static IoT_App.AppSettings;
 namespace HttpWebRequestSample
 {
     public class Program
     {
         public static void Main()
         {
+
+
             var services = new ServiceCollection();
 
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
             builder.AddDht11();
+            builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();
             builder.ConnectToWifi("PC", "123456789");
             builder.ConfigureServiceConnection(
-                    AppSettings.HUB_URL,
+                    HUB_URL,
                     new HubConnectionOptions()
                     {
                         Certificate = new X509Certificate(AppSettings.dstRootCAX3),
@@ -40,10 +44,13 @@ namespace HttpWebRequestSample
 
             while (true)
             {
-                var data = esp32.ComposeAllDataInfo();
+                esp32.CloseWindow();
+                var data = esp32.ComposeDataFromSensor();
                 esp32.SendDataFromSensorToServer(data);
                 Thread.Sleep(5000);
                 Debug.WriteLine("ESP32 is ready to send data to server");
+
+                esp32.OpenWindow();
             }
         }
 

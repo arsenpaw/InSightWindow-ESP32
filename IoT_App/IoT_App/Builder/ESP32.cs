@@ -1,4 +1,5 @@
 ﻿using IoT_App.Models;
+using IoT_App.Motor;
 using IoT_App.Sensors;
 using IoT_App.Services;
 using nanoFramework.Json;
@@ -13,31 +14,30 @@ namespace IoT_App.Builder
 {
     public class ESP32
     {
-
-
         public HubConnection HubConnection { get; set; }
 
         public IAesService AesService { get; set; }
+
+        public IStepMotorService StepMotorService { get; set; }
 
         public DHT11 DHT11 { get; set; }
 
         public WaterSensor WaterSensor { get; set; }
 
-        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor)
+        public AllSensorData AllSensorData { get; set; } = new AllSensorData();
+
+        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor)
         {
             AesService = aesService;
             HubConnection = hubConnection;
             WaterSensor = waterSensor;
             DHT11 = dHT11;
+            StepMotorService = stepMotor;
         }
 
-
-        public AllSensorData AllSensorData { get; set; } = new AllSensorData();
-
-        public void StartConnection()
-        {
+        public void StartConnection() => 
             HubConnection.Start();
-        }
+        
 
         public void SendDataFromSensorToServer(AllSensorData data)
         {
@@ -61,7 +61,18 @@ namespace IoT_App.Builder
                 //do something with the data
             });
         }
-        public AllSensorData ComposeAllDataInfo()
+
+        public void CloseWindow()
+        {
+            StepMotorService.Rotate(2048);
+        }
+
+        public void OpenWindow()
+        {
+            StepMotorService.Rotate(-2048);
+        }
+
+        public AllSensorData ComposeDataFromSensor()
         {
             AllSensorData.ResetDataChangedFlag();
 
@@ -71,7 +82,6 @@ namespace IoT_App.Builder
             DHT11.DataCompose(AllSensorData);
 
             return AllSensorData;
-
 
         }
     }

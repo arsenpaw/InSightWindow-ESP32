@@ -35,7 +35,6 @@
     <Compile Include="Motor\IStepMotorService.cs" />
     <Compile Include="Motor\StepMotor.cs" />
     <Compile Include="Observer\Enum\NetworkEventsEnum.cs" />
-    <Compile Include="Observer\EventObserver.cs" />
     <Compile Include="Observer\EventPublisher.cs" />
     <Compile Include="Observer\IEventPublisher.cs" />
     <Compile Include="Program.cs" />

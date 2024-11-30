@@ -25,6 +25,7 @@ namespace HttpWebRequestSample
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
+            services.AddSingleton(typeof(IEventObserver), typeof(EventPublisher));
             builder.Services.AddCommandServices();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
@@ -41,6 +42,7 @@ namespace HttpWebRequestSample
                     });
 
             var esp32 = builder.Build();
+            esp32.SubscribeOnEvents();
             esp32.StartConnection();
             esp32.SubscribeToServerReceiveData();
             
@@ -57,12 +59,6 @@ namespace HttpWebRequestSample
             }
         }
 
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton(typeof(IAesService), typeof(AesService));
-            //services.AddTransient(typeof(IEventPublisher), typeof(EventPublisher));
-            //services.AddTransient(typeof(EventObserver));
-        }
 
     }
 }

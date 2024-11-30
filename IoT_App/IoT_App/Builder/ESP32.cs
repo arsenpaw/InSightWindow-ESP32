@@ -1,6 +1,7 @@
 ﻿using IoT_App.Command;
 using IoT_App.Models;
 using IoT_App.Motor;
+using IoT_App.Observer;
 using IoT_App.Sensors;
 using IoT_App.Services;
 using nanoFramework.Json;
@@ -23,13 +24,17 @@ namespace IoT_App.Builder
 
         public IServiceProvider ServiceProvider { get; set; }
 
+        public IEventObserver EventPublisher { get; set; }
+
         public DHT11 DHT11 { get; set; }
 
         public WaterSensor WaterSensor { get; set; }
 
         public AllSensorData AllSensorData { get; set; } = new AllSensorData();
 
-        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor, IServiceProvider serviceProvider)
+        public ESP32(IAesService aesService, HubConnection hubConnection ,
+            DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor,
+            IServiceProvider serviceProvider, IEventObserver eventPublisher)
         {
             AesService = aesService;
             HubConnection = hubConnection;
@@ -37,7 +42,11 @@ namespace IoT_App.Builder
             DHT11 = dHT11;
             StepMotorService = stepMotor;
             ServiceProvider = serviceProvider;
+            EventPublisher = eventPublisher;
         }
+
+        public void SubscribeOnEvents() => EventPublisher.EnableEventHandling();
+        
 
         public void StartConnection() => 
             HubConnection.Start();

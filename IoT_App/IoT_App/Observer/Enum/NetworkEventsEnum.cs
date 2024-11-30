@@ -9,5 +9,6 @@ namespace IoT_App.Observer.Enum
         OnConnectionLost = 0,
 
         //10-20 info
+        OnConnectionReconnecting = 10,
     }
 }

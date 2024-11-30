@@ -24,10 +24,12 @@
     <Compile Include="ChainOfResponcebility\DataComposeHandler.cs" />
     <Compile Include="ChainOfResponcebility\IHandler.cs" />
     <Compile Include="Claim\ClaimType.cs" />
-    <Compile Include="Enums\Command.cs" />
+    <Compile Include="Command\CommandDto.cs" />
+    <Compile Include="Command\CommandServiceResolver.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\Implementation\OpenCommand.cs" />
+    <Compile Include="Enums\CommandEnum.cs" />
     <Compile Include="Models\AllSensorData.cs" />
-    <Compile Include="Models\Command.cs" />
-    <Compile Include="Models\CommandDto.cs" />
     <Compile Include="Models\DeviceDto.cs" />
     <Compile Include="Motor\IStepMotorService.cs" />
     <Compile Include="Motor\StepMotor.cs" />

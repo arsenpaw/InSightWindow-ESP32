@@ -10,6 +10,7 @@ using System.Device.Adc;
 using System.Threading;
 using IoT_App.Motor;
 using static IoT_App.AppSettings;
+using IoT_App.Command;
 namespace HttpWebRequestSample
 {
     public class Program
@@ -23,6 +24,7 @@ namespace HttpWebRequestSample
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
+            builder.Services.AddCommandServices();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();

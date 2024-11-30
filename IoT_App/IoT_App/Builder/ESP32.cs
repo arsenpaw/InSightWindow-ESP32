@@ -1,4 +1,5 @@
-﻿using IoT_App.Models;
+﻿using IoT_App.Command;
+using IoT_App.Models;
 using IoT_App.Motor;
 using IoT_App.Sensors;
 using IoT_App.Services;
@@ -20,19 +21,22 @@ namespace IoT_App.Builder
 
         public IStepMotorService StepMotorService { get; set; }
 
+        public IServiceProvider ServiceProvider { get; set; }
+
         public DHT11 DHT11 { get; set; }
 
         public WaterSensor WaterSensor { get; set; }
 
         public AllSensorData AllSensorData { get; set; } = new AllSensorData();
 
-        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor)
+        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor, IServiceProvider serviceProvider)
         {
             AesService = aesService;
             HubConnection = hubConnection;
             WaterSensor = waterSensor;
             DHT11 = dHT11;
             StepMotorService = stepMotor;
+            ServiceProvider = serviceProvider;
         }
 
         public void StartConnection() => 
@@ -55,10 +59,13 @@ namespace IoT_App.Builder
         }
         public void SubscribeToServerReceiveData()
         {
-            HubConnection.On("ReceiveCommand",new Type []{ typeof(Command) }, (sender, args) =>
+            HubConnection.On("ReceiveCommand",new Type []{ typeof(object) }, (sender, args) =>
             {
-                var commend = args[0] as Command;
-                //do something with the data
+                var command = args[0] as CommandDto;
+                if (command == null)
+                    Debug.WriteLine("commend is null");
+                var commandService = ServiceProvider.GetServiceByCommand(command.CommandType);
+                commandService.Execute();
             });
         }
 

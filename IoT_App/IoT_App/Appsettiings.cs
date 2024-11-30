@@ -7,20 +7,8 @@ namespace IoT_App
 {
     public static class AppSettings
     {
-<<<<<<< Updated upstream
         public const string HUB_URL1 = "https://axproduct-server.azurewebsites.net/client-hub";
         public const string HUB_URL = "https://192.168.1.14/client-hub";
-=======
-        public const string HUB_URL = "https://axproduct-server.azurewebsites.net/client-hub";
-        public const string HUB_URL1 = "https://192.168.0.172/client-hub";
-
-        //step motor pins
-        public const int stepPin1 = 17; // blue to IN1
-        public const int stepPin2 = 5;  // green to IN2
-        public const int stepPin3 = 18; // yellow to IN3
-        public const int stepPin4 = 19; // orange to IN4`
-
->>>>>>> Stashed changes
 
         // this is D34 real pin
         public const int ADC_LIQUID_SENSOR_PIN = 6;

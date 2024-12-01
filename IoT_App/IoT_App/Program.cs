@@ -13,6 +13,7 @@ using static IoT_App.AppSettings;
 using IoT_App.Command;
 using nanoFramework.Runtime.Events;
 using IoT_App.Observer;
+using System.Device.Gpio;
 namespace HttpWebRequestSample
 {
     public class Program
@@ -26,10 +27,12 @@ namespace HttpWebRequestSample
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
             services.AddSingleton(typeof(IEventObserver), typeof(EventObserver));
+            services.AddScoped(typeof(GpioController));
             builder.Services.AddCommandServices();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();
+            builder.AddMotorManager();
             builder.ConnectToWifi("PC", "123456789");
             builder.ConfigureServiceConnection(
                     HUB_URL,
@@ -49,13 +52,10 @@ namespace HttpWebRequestSample
 
             while (true)
             {
-                esp32.CloseWindow();
                 var data = esp32.ComposeDataFromSensor();
                 esp32.SendDataFromSensorToServer(data);
                 Thread.Sleep(5000);
                 Debug.WriteLine("ESP32 is ready to send data to server");
-
-                esp32.OpenWindow();
             }
         }
 

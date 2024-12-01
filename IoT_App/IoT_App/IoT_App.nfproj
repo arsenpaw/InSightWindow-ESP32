@@ -32,8 +32,10 @@
     <Compile Include="Enums\CommandEnum.cs" />
     <Compile Include="Models\AllSensorData.cs" />
     <Compile Include="Models\DeviceDto.cs" />
-    <Compile Include="Motor\IStepMotorService.cs" />
+    <Compile Include="Motor\IStepMotor.cs" />
+    <Compile Include="Motor\IStepMotorManager.cs" />
     <Compile Include="Motor\StepMotor.cs" />
+    <Compile Include="Motor\StepMotorManager.cs" />
     <Compile Include="Observer\Enum\NetworkEventsEnum.cs" />
     <Compile Include="Observer\EventPublisher.cs" />
     <Compile Include="Observer\IEventPublisher.cs" />

@@ -16,36 +16,33 @@ namespace IoT_App.Builder
 {
     public class ESP32
     {
-        public HubConnection HubConnection { get; set; }
+        private  HubConnection HubConnection { get; set; }
 
-        public IAesService AesService { get; set; }
+        private  IAesService AesService { get; set; }
 
-        public IStepMotor StepMotorService { get; set; }
+        private  IServiceProvider ServiceProvider { get; set; }
 
-        public IServiceProvider ServiceProvider { get; set; }
+        private  IEventObserver EventObserver { get; set; }
 
-        public IEventObserver EventPublisher { get; set; }
+        private  DHT11 DHT11 { get; set; }
 
-        public DHT11 DHT11 { get; set; }
-
-        public WaterSensor WaterSensor { get; set; }
+        private  WaterSensor WaterSensor { get; set; }
 
         public AllSensorData AllSensorData { get; set; } = new AllSensorData();
 
         public ESP32(IAesService aesService, HubConnection hubConnection ,
-            DHT11 dHT11, WaterSensor waterSensor, IStepMotor stepMotor,
+            DHT11 dHT11, WaterSensor waterSensor,
             IServiceProvider serviceProvider, IEventObserver eventPublisher)
         {
             AesService = aesService;
             HubConnection = hubConnection;
             WaterSensor = waterSensor;
             DHT11 = dHT11;
-            StepMotorService = stepMotor;
             ServiceProvider = serviceProvider;
-            EventPublisher = eventPublisher;
+            EventObserver = eventPublisher;
         }
 
-        public void SubscribeOnEvents() => EventPublisher.EnableEventHandling();
+        public void SubscribeOnEvents() => EventObserver.EnableEventHandling();
         
 
         public void StartConnection() => 
@@ -72,9 +69,12 @@ namespace IoT_App.Builder
             {
                 try
                 {
-                    var command = (CommandDto)JsonConvert.DeserializeObject(args[0] as string, typeof(CommandDto));
+                    var encryptedData = (args[0] as string);
+                    var encryptedBytes = Convert.FromBase64String(encryptedData.Trim('"'));
+                    var decryptedData = AesService.DecryptData(encryptedBytes);
+                    var command = (CommandDto)JsonConvert.DeserializeObject(decryptedData, typeof(CommandDto));
                     if (command == null)
-                        Debug.WriteLine("commend is null");
+                        Debug.WriteLine("command is null");
                     var commandService = ServiceProvider.GetServiceByCommand(command.Command);
                     commandService.Execute();
                 }
@@ -83,16 +83,6 @@ namespace IoT_App.Builder
                     Debug.WriteLine(ex.Message);
                 }
             });
-        }
-
-        public void CloseWindow()
-        {
-            StepMotorService.Rotate(2048);
-        }
-
-        public void OpenWindow()
-        {
-            StepMotorService.Rotate(-2048);
         }
 
         public AllSensorData ComposeDataFromSensor()

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    internal interface IStepMotorManager
+    public interface IStepMotorManager
     {
         public bool WindowOpen();
 

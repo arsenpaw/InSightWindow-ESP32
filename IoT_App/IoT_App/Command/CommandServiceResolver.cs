@@ -3,6 +3,7 @@ using IoT_App.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Text;
 
 namespace IoT_App.Command
@@ -21,6 +22,7 @@ namespace IoT_App.Command
 
         public static void AddCommandServices(this IServiceCollection services)
         {
+            
             foreach (DictionaryEntry service in _services)
             {
                 services.AddTransient((Type)service.Value);

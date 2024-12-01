@@ -45,13 +45,14 @@ namespace IoT_App.Builder
             Services.AddSingleton(typeof(HubConnection), new HubConnection(url,headers,options));
         }
 
-        public void AddStepMotor(StepMotor stepMotor)
+        public void AddStepMotor(int stepPin1, int stepPin2, int stepPin3, int stepPin4)
         {
-            Services.AddTransient(typeof(IStepMotor), typeof(StepMotor));
+            Services.AddSingleton(typeof(Uln2003), new Uln2003(stepPin1, stepPin2, stepPin3, stepPin4));
+            Services.AddSingleton(typeof(IStepMotor), typeof(StepMotor));
         }
         public void AddMotorManager()
         {
-            Services.AddTransient(typeof(IStepMotorManager), typeof(StepMotorManager));
+            Services.AddSingleton(typeof(IStepMotorManager), typeof(StepMotorManager));
         }
 
         public void ConnectToWifi(string ssid, string password)
@@ -70,7 +71,6 @@ namespace IoT_App.Builder
         {
             Services.AddSingleton(typeof(ESP32));
             var serviceProvider = Services.BuildServiceProvider();
-
             return (ESP32)serviceProvider.GetRequiredService(typeof(ESP32));
         }
     }

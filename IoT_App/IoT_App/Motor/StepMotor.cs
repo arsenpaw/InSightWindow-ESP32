@@ -5,12 +5,12 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    public class StepMotor: IStepMotor
+    public class StepMotor : IStepMotor
     {
         private Uln2003 Motor { get; set; }
-        public StepMotor(int pin1,int pin2, int pin3, int pin4)
+        public StepMotor(Uln2003 motor)
         {
-            Motor = new Uln2003 (pin1, pin2, pin3, pin4);
+            Motor = motor;
             Motor.Mode = StepperMode.FullStepDualPhase;
             Motor.RPM = short.MaxValue;
         }
@@ -20,6 +20,12 @@ namespace IoT_App.Motor
             Debug.WriteLine($"Rotating {degrees} degrees");        
              Motor.Step(degrees); 
 
+        }
+
+        public void Stop()
+        {
+            Debug.WriteLine("Stopping Motor");
+            Motor.Stop();
         }
     }
     

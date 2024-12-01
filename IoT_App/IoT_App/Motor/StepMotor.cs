@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    public class StepMotor: IStepMotorService
+    public class StepMotor: IStepMotor
     {
         private Uln2003 Motor { get; set; }
         public StepMotor(int pin1,int pin2, int pin3, int pin4)

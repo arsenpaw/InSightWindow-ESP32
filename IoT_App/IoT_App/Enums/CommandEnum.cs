@@ -10,7 +10,5 @@ namespace IoT_App.Enums
         StopAlarm = 20,
         StartAlarm = 21,
         Stop = 30,
-
-
     }
 }

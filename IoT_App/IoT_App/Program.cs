@@ -10,19 +10,23 @@ using System.Device.Adc;
 using System.Threading;
 using IoT_App.Motor;
 using static IoT_App.AppSettings;
+using IoT_App.Command;
+using nanoFramework.Runtime.Events;
+using IoT_App.Observer;
 namespace HttpWebRequestSample
 {
     public class Program
     {
+        //TODO State pattern to change the state of esp32
         public static void Main()
         {
-
-
             var services = new ServiceCollection();
 
             var builder = MicrocontrollerBuilder.CreateBuilder(services);
             builder.Services.AddSingleton(typeof(AdcController));
             builder.Services.AddSingleton(typeof(IAesService), typeof(AesService));
+            services.AddSingleton(typeof(IEventObserver), typeof(EventObserver));
+            builder.Services.AddCommandServices();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();
@@ -38,6 +42,7 @@ namespace HttpWebRequestSample
                     });
 
             var esp32 = builder.Build();
+            esp32.SubscribeOnEvents();
             esp32.StartConnection();
             esp32.SubscribeToServerReceiveData();
             
@@ -54,10 +59,6 @@ namespace HttpWebRequestSample
             }
         }
 
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton(typeof(IAesService), typeof(AesService));
 
-        }
     }
 }

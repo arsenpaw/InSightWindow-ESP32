@@ -3,8 +3,12 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    public interface IStepMotorService
+    internal interface IStepMotorManager
     {
-        public void Rotate(int degrees);
+        public bool WindowOpen();
+
+        public bool WindowClose();
+
+        public void WindowStop();
     }
 }

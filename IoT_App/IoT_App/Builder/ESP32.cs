@@ -1,5 +1,7 @@
-﻿using IoT_App.Models;
+﻿using IoT_App.Command;
+using IoT_App.Models;
 using IoT_App.Motor;
+using IoT_App.Observer;
 using IoT_App.Sensors;
 using IoT_App.Services;
 using nanoFramework.Json;
@@ -18,7 +20,11 @@ namespace IoT_App.Builder
 
         public IAesService AesService { get; set; }
 
-        public IStepMotorService StepMotorService { get; set; }
+        public IStepMotor StepMotorService { get; set; }
+
+        public IServiceProvider ServiceProvider { get; set; }
+
+        public IEventObserver EventPublisher { get; set; }
 
         public DHT11 DHT11 { get; set; }
 
@@ -26,14 +32,21 @@ namespace IoT_App.Builder
 
         public AllSensorData AllSensorData { get; set; } = new AllSensorData();
 
-        public ESP32(IAesService aesService, HubConnection hubConnection , DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor)
+        public ESP32(IAesService aesService, HubConnection hubConnection ,
+            DHT11 dHT11, WaterSensor waterSensor, IStepMotor stepMotor,
+            IServiceProvider serviceProvider, IEventObserver eventPublisher)
         {
             AesService = aesService;
             HubConnection = hubConnection;
             WaterSensor = waterSensor;
             DHT11 = dHT11;
             StepMotorService = stepMotor;
+            ServiceProvider = serviceProvider;
+            EventPublisher = eventPublisher;
         }
+
+        public void SubscribeOnEvents() => EventPublisher.EnableEventHandling();
+        
 
         public void StartConnection() => 
             HubConnection.Start();
@@ -55,10 +68,20 @@ namespace IoT_App.Builder
         }
         public void SubscribeToServerReceiveData()
         {
-            HubConnection.On("ReceiveCommand",new Type []{ typeof(Command) }, (sender, args) =>
+            HubConnection.On("ReceiveCommand",new Type []{ typeof(string) }, (sender, args) =>
             {
-                var commend = args[0] as Command;
-                //do something with the data
+                try
+                {
+                    var command = (CommandDto)JsonConvert.DeserializeObject(args[0] as string, typeof(CommandDto));
+                    if (command == null)
+                        Debug.WriteLine("commend is null");
+                    var commandService = ServiceProvider.GetServiceByCommand(command.Command);
+                    commandService.Execute();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             });
         }
 

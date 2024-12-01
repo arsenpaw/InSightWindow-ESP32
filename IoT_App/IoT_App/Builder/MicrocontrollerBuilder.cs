@@ -30,12 +30,12 @@ namespace IoT_App.Builder
 
         public void AddDht11()
         {
-            Services.AddSingleton(typeof(DHT11), typeof(DHT11));
+            Services.AddTransient(typeof(DHT11), typeof(DHT11));
         }
 
         public void AddWaterSensor()
         {
-            Services.AddSingleton(typeof(WaterSensor), typeof(WaterSensor));
+            Services.AddTransient(typeof(WaterSensor), typeof(WaterSensor));
         }
 
         public void ConfigureServiceConnection(string url, HubConnectionOptions options)
@@ -45,9 +45,13 @@ namespace IoT_App.Builder
             Services.AddSingleton(typeof(HubConnection), new HubConnection(url,headers,options));
         }
 
-        public void AddStepMotor(int pin1, int pin2, int pin3, int pin4)
+        public void AddStepMotor(StepMotor stepMotor)
         {
-            Services.AddSingleton(typeof(IStepMotorService), new StepMotor(pin1, pin2, pin3, pin4));
+            Services.AddTransient(typeof(IStepMotor), typeof(StepMotor));
+        }
+        public void AddMotorManager()
+        {
+            Services.AddTransient(typeof(IStepMotorManager), typeof(StepMotorManager));
         }
 
         public void ConnectToWifi(string ssid, string password)

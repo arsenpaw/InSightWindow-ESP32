@@ -20,7 +20,7 @@ namespace IoT_App.Builder
 
         public IAesService AesService { get; set; }
 
-        public IStepMotorService StepMotorService { get; set; }
+        public IStepMotor StepMotorService { get; set; }
 
         public IServiceProvider ServiceProvider { get; set; }
 
@@ -33,7 +33,7 @@ namespace IoT_App.Builder
         public AllSensorData AllSensorData { get; set; } = new AllSensorData();
 
         public ESP32(IAesService aesService, HubConnection hubConnection ,
-            DHT11 dHT11, WaterSensor waterSensor, IStepMotorService stepMotor,
+            DHT11 dHT11, WaterSensor waterSensor, IStepMotor stepMotor,
             IServiceProvider serviceProvider, IEventObserver eventPublisher)
         {
             AesService = aesService;

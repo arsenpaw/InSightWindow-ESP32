@@ -3,7 +3,7 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    public interface IStepMotorService
+    public interface IStepMotor
     {
         public void Rotate(int degrees);
     }

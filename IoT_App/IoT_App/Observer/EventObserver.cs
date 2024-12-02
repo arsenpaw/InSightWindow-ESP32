@@ -23,14 +23,9 @@ namespace IoT_App.Observer
 
         public void EnableEventHandling()
         {
-            NetworkChange.NetworkAddressChanged += (sender, e) =>
-            {
-                HandleNetworkAddressChange();
-            };
-
-            // Optional: Handle SignalR-specific events (if needed in the future)
-            //_hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
-            //_hubConnection.Reconnecting += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionReconnecting);
+            NetworkChange.NetworkAddressChanged += (sender, e) => HandleNetworkAddressChange();
+            _hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
+            _hubConnection.Reconnecting += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionReconnecting);
         }
 
         private void HandleNetworkAddressChange()

@@ -46,9 +46,9 @@ namespace HttpWebRequestSample
 
             var esp32 = builder.Build();
             esp32.SubscribeOnEvents();
+            new Thread(() => esp32.SubscribeToServerReceiveData()).Start();
             esp32.StartConnection();
-            esp32.SubscribeToServerReceiveData();
-            
+
 
             while (true)
             {

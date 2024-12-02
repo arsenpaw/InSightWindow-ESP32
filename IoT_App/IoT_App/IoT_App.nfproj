@@ -37,8 +37,8 @@
     <Compile Include="Motor\StepMotor.cs" />
     <Compile Include="Motor\StepMotorManager.cs" />
     <Compile Include="Observer\Enum\NetworkEventsEnum.cs" />
-    <Compile Include="Observer\EventPublisher.cs" />
-    <Compile Include="Observer\IEventPublisher.cs" />
+    <Compile Include="Observer\EventObserver.cs" />
+    <Compile Include="Observer\IEventObserver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\DHT11.cs" />

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace IoT_App.Motor
 {
-    public class StepMotorManager
+    public class StepMotorManager: IStepMotorManager
     {
         private readonly IStepMotor _stepMotor;
 
@@ -12,16 +12,18 @@ namespace IoT_App.Motor
             _stepMotor = stepMotor;
         }
 
-        public void WindowOpen()
+        public bool WindowOpen()
         {
             //TODO Algo to corrext the rotation
             _stepMotor.Rotate(90);
+            return true;
         }
 
-        public void WindowClose()
+        public bool WindowClose()
         {
             //TODO Algo to /corrext the rotation
             _stepMotor.Rotate(-90);
+            return true;
         }
         public void WindowStop()
         {

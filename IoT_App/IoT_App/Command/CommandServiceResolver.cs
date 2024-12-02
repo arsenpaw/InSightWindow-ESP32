@@ -25,7 +25,7 @@ namespace IoT_App.Command
             
             foreach (DictionaryEntry service in _services)
             {
-                services.AddTransient((Type)service.Value);
+                services.AddSingleton((Type)service.Value);
             }
         }
 

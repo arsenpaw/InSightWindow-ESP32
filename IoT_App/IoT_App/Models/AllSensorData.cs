@@ -7,6 +7,7 @@
         private int _humidity;
         private bool _isRain;
         private bool _isOpen;
+        private bool _isAlarm;
 
         public int Temperature
         {
@@ -60,10 +61,22 @@
             }
         }
 
-        // This property will be set to true when any of the above properties change
+        //TODO: Handle in alarm service
+        public bool IsAlarm
+        {
+            get => _isAlarm;
+            set
+            {
+                if (_isAlarm != value)
+                {
+                    _isAlarm = value;
+                    IsDataChanged = true;
+                }
+            }
+        }
+
         public bool IsDataChanged { get; private set; } = false;
 
-        // Method to reset the IsDataChanged flag after handling the change
         public void ResetDataChangedFlag()
         {
             IsDataChanged = false;

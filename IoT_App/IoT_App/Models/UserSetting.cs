@@ -2,6 +2,6 @@
 {
     public class UserSetting
     {
-        public bool IsProtected { get; set; }
+        public bool IsProtected { get; set; } = false;
     }
 }

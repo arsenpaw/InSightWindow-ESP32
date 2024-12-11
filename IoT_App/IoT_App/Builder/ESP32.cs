@@ -20,6 +20,8 @@ namespace IoT_App.Builder
 
         private IEventObserver EventObserver { get; set; }
 
+        private IFlashStorage flashStorage { get; set; }
+
         private DHT11 DHT11 { get; set; }
 
         private WaterSensor WaterSensor { get; set; }
@@ -28,7 +30,7 @@ namespace IoT_App.Builder
 
         public ESP32(IAesService aesService, HubConnection hubConnection,
             DHT11 dHT11, WaterSensor waterSensor,
-            IServiceProvider serviceProvider, IEventObserver eventPublisher)
+            IServiceProvider serviceProvider, IEventObserver eventPublisher, IFlashStorage flashStorage)
         {
             AesService = aesService;
             HubConnection = hubConnection;
@@ -36,6 +38,7 @@ namespace IoT_App.Builder
             DHT11 = dHT11;
             ServiceProvider = serviceProvider;
             EventObserver = eventPublisher;
+            this.flashStorage = flashStorage;
         }
 
         public void SubscribeOnEvents() => EventObserver.EnableEventHandling();
@@ -44,6 +47,14 @@ namespace IoT_App.Builder
         public void StartConnection() =>
             HubConnection.Start();
 
+        public void test()
+        {
+            var t = flashStorage.GetUserSettings();
+            Debug.WriteLine(t.IsProtected.ToString());
+            flashStorage.SetUserSettings(new UserSetting() { IsProtected = true });
+            var tt = flashStorage.GetUserSettings();
+            Debug.WriteLine(tt.IsProtected.ToString());
+        }
 
         public void SendDataFromSensorToServer(AllSensorData data)
         {

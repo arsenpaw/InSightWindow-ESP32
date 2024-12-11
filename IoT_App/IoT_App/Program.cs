@@ -27,6 +27,7 @@ namespace HttpWebRequestSample
             services.AddSingleton(typeof(IEventObserver), typeof(EventObserver));
             services.AddScoped(typeof(GpioController));
             builder.Services.AddCommandServices();
+            builder.AddFlashStorage();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();
@@ -47,6 +48,7 @@ namespace HttpWebRequestSample
             new Thread(() => esp32.SubscribeToServerReceiveData()).Start();
             esp32.StartConnection();
 
+            esp32.test();
 
             while (true)
             {

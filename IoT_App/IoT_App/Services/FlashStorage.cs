@@ -17,11 +17,9 @@ namespace IoT_App.Services
 
             if (!File.Exists(userSettingsFilePath) || !File.Exists(fileInternalPath))
             {
-                Debug.WriteLine("+++++ Creating a file +++++");
+                Debug.WriteLine("+++++ Creating a settings file +++++");
                 File.Create(fileInternalPath);
                 _initUserSettings();
-
-
             }
         }
         private void _initUserSettings()
@@ -35,7 +33,7 @@ namespace IoT_App.Services
 
         public void SetUserSettings(UserSettings data)
         {
-            Debug.WriteLine("+++++ Writing to a sample file +++++");
+            Debug.WriteLine("+++++ Writing to a settings file +++++");
             var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Write);
             var userSettings = JsonConvert.SerializeObject(data);
             var dataToWrite = System.Text.Encoding.UTF8.GetBytes(userSettings);
@@ -44,7 +42,7 @@ namespace IoT_App.Services
         }
         public UserSettings GetUserSettings()
         {
-            Debug.WriteLine("+++++ Reading from a sample file +++++");
+            Debug.WriteLine("+++++ Reading from a settings file +++++");
             var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Read);
             byte[] fileContent = new byte[fs.Length];
             fs.Read(fileContent, 0, (int)fs.Length);

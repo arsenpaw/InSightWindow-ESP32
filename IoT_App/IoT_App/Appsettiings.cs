@@ -1,14 +1,11 @@
-﻿using nanoFramework.SignalR.Client;
-using System;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System;
 
 namespace IoT_App
 {
     public static class AppSettings
     {
         public const string HUB_URL1 = "https://axproduct-server.azurewebsites.net/client-hub";
-        public const string HUB_URL = "https://192.168.1.4/client-hub";
+        public const string HUB_URL = "https://192.168.1.8/client-hub";
 
         //step motor pins
         public const int stepPin1 = 17; // blue to IN1

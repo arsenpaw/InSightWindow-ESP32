@@ -1,12 +1,8 @@
 ﻿using IoT_App.Observer.Enum;
-using nanoFramework.Runtime.Events;
-using nanoFramework.SignalR.Client;
-using System;
-using System.Text;
-using IoT_App.Observer;
 using nanoFramework.Networking;
-using System.Net.NetworkInformation;
+using nanoFramework.SignalR.Client;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace IoT_App.Observer
 {
@@ -23,14 +19,17 @@ namespace IoT_App.Observer
 
         public void EnableEventHandling()
         {
-            NetworkChange.NetworkAddressChanged += (sender, e) => HandleNetworkAddressChange();
-            _hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
-            _hubConnection.Reconnecting += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionReconnecting);
+            NetworkChange.NetworkAddressChanged += (sender, e) => HandleNetworkAddressChange(NetworkInterface.GetAllNetworkInterfaces());
+            //_hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
+            //_hubConnection.Reconnecting += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionReconnecting);
         }
-
-        private void HandleNetworkAddressChange()
+        //TODO Make that normal because this
+        private void HandleNetworkAddressChange(NetworkInterface[] networkInterfaces)
         {
-            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            if (networkInterfaces is null)
+            {
+                return;
+            }
 
             foreach (var netInterface in networkInterfaces)
             {
@@ -58,12 +57,18 @@ namespace IoT_App.Observer
             {
                 case NetworkEventsEnum.OnConnectionLost:
                     _hubConnection.Stop();
+                    _hubConnection.Start();
                     AttemptReconnect();
                     break;
 
                 case NetworkEventsEnum.OnConnectionReconnecting:
-                    _hubConnection.Start();
-                    _isReconnecting = false; 
+
+                    while (_hubConnection.State != HubConnectionState.Connected)
+                    {
+                        _hubConnection.Start();
+                    }
+
+                    _isReconnecting = false;
                     Debug.WriteLine("Wi-Fi connection established.");
                     break;
 
@@ -91,7 +96,7 @@ namespace IoT_App.Observer
                     Debug.WriteLine("Wi-Fi reconnection failed.");
                 }
 
-                _isReconnecting = false; 
+                _isReconnecting = false;
             }
             else
             {

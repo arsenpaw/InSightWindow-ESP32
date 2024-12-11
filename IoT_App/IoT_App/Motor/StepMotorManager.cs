@@ -22,7 +22,7 @@ namespace IoT_App.Motor
         public bool WindowClose()
         {
             //TODO Algo to /corrext the rotation
-            _stepMotor.Rotate(-90);
+            _stepMotor.Rotate(-2700);
             return true;
         }
         public void WindowStop()

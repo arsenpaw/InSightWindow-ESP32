@@ -11,16 +11,19 @@ namespace IoT_App.Services
         public AesService()
         {
             Aes = new Aes(CipherMode.CBC);
-         
+
             Aes.Key = _getProperByteData(Encoding.UTF8.GetBytes(AppSettings.AesPasswrod));
             Aes.IV = _getProperByteData(Encoding.UTF8.GetBytes(AppSettings.AesPasswrod));
-            
+
         }
 
         private byte[] _getProperByteData(byte[] oldArray)
         {
             if (oldArray.Length % 16 == 0)
+            {
                 return oldArray;
+            }
+
             var newArray = new byte[oldArray.Length + (16 - oldArray.Length % 16)];
             Array.Copy(oldArray, newArray, oldArray.Length);
             return newArray;
@@ -34,8 +37,11 @@ namespace IoT_App.Services
         }
         public string DecryptData(byte[] encryptedData)
         {
+            var encoder = new UTF8Encoding();
+
             var decryptedData = Aes.Decrypt(encryptedData);
-            return Encoding.UTF8.GetString(decryptedData,0,encryptedData.Length);
+            var data = encoder.GetString(decryptedData, 0, decryptedData.Length);
+            return (data);
         }
     }
 }

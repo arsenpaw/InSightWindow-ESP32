@@ -286,3 +286,15 @@ D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.Net.xml
 D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.Net.Http.xml
 D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.Net.WebSockets.xml
 D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.Threading.xml
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\nanoFramework.System.Runtime.pe
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\System.IO.FileSystem.pe
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\nanoFramework.System.Runtime.pdbx
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\System.IO.FileSystem.pdbx
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\nanoFramework.System.Runtime.dll
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\System.IO.FileSystem.dll
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\nanoFramework.System.Runtime.xml
+D:\InSightWindow-ESP32\IoT_App\IoT_App\bin\Debug\System.IO.FileSystem.xml
+D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\nanoFramework.System.Runtime.dll
+D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.IO.FileSystem.dll
+D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\nanoFramework.System.Runtime.xml
+D:\InSightWindow-ESP32\IoT_App\IoT_App\obj\Debug\System.IO.FileSystem.xml

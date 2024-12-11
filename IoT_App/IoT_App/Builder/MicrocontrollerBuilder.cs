@@ -5,16 +5,14 @@ using IoT_App.Services;
 using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Networking;
 using nanoFramework.SignalR.Client;
-using System;
 using System.Diagnostics;
-using System.Net.NetworkInformation;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Threading;
 
 namespace IoT_App.Builder
 {
-    public class MicrocontrollerBuilder 
+    public class MicrocontrollerBuilder
     {
         public readonly IServiceCollection Services;
 
@@ -42,7 +40,7 @@ namespace IoT_App.Builder
         {
             var headers = new ClientWebSocketHeaders();
             headers[ClaimTypes.DeviceId] = AppSettings.Id.ToString();
-            Services.AddSingleton(typeof(HubConnection), new HubConnection(url,headers,options));
+            Services.AddSingleton(typeof(HubConnection), new HubConnection(url, headers, options));
         }
 
         public void AddStepMotor(int stepPin1, int stepPin2, int stepPin3, int stepPin4)
@@ -54,7 +52,10 @@ namespace IoT_App.Builder
         {
             Services.AddSingleton(typeof(IStepMotorManager), typeof(StepMotorManager));
         }
-
+        public void AddFlashStorage()
+        {
+            Services.AddSingleton(typeof(IFlashStorage), new FlashStorage());
+        }
         public void ConnectToWifi(string ssid, string password)
         {
             CancellationTokenSource cs = new(5000);

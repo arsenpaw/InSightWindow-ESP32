@@ -1,19 +1,17 @@
 using IoT_App;
-using IoT_App.Services;
 using IoT_App.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System.Security.Cryptography.X509Certificates;
-using nanoFramework.SignalR.Client;
-using System.Net.Security;
-using System.Diagnostics;
-using System.Device.Adc;
-using System.Threading;
-using IoT_App.Motor;
-using static IoT_App.AppSettings;
 using IoT_App.Command;
-using nanoFramework.Runtime.Events;
 using IoT_App.Observer;
+using IoT_App.Services;
+using Microsoft.Extensions.DependencyInjection;
+using nanoFramework.SignalR.Client;
+using System.Device.Adc;
 using System.Device.Gpio;
+using System.Diagnostics;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using static IoT_App.AppSettings;
 namespace HttpWebRequestSample
 {
     public class Program
@@ -29,6 +27,7 @@ namespace HttpWebRequestSample
             services.AddSingleton(typeof(IEventObserver), typeof(EventObserver));
             services.AddScoped(typeof(GpioController));
             builder.Services.AddCommandServices();
+            builder.AddFlashStorage();
             builder.AddDht11();
             builder.AddStepMotor(stepPin1, stepPin2, stepPin3, stepPin4);
             builder.AddWaterSensor();
@@ -49,6 +48,7 @@ namespace HttpWebRequestSample
             new Thread(() => esp32.SubscribeToServerReceiveData()).Start();
             esp32.StartConnection();
 
+            esp32.test();
 
             while (true)
             {

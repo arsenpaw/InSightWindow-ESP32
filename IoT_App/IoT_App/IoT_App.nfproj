@@ -32,7 +32,8 @@
     <Compile Include="Enums\CommandEnum.cs" />
     <Compile Include="Models\AllSensorData.cs" />
     <Compile Include="Models\DeviceDto.cs" />
-    <Compile Include="Models\UserSetting.cs" />
+    <Compile Include="Models\Store\AutoBehaviourSettings.cs" />
+    <Compile Include="Models\Store\UserSettings.cs" />
     <Compile Include="Motor\IStepMotor.cs" />
     <Compile Include="Motor\IStepMotorManager.cs" />
     <Compile Include="Motor\StepMotor.cs" />

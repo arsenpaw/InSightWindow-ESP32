@@ -1,10 +1,10 @@
-﻿using IoT_App.Models;
+﻿using IoT_App.Models.Store;
 
 namespace IoT_App.Services
 {
     public interface IFlashStorage
     {
-        UserSetting GetUserSettings();
-        void SetUserSettings(UserSetting data);
+        UserSettings GetUserSettings();
+        void SetUserSettings(UserSettings data);
     }
 }

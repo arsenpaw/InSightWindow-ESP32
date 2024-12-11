@@ -1,5 +1,6 @@
 ﻿using IoT_App.Command;
 using IoT_App.Models;
+using IoT_App.Models.Store;
 using IoT_App.Observer;
 using IoT_App.Sensors;
 using IoT_App.Services;
@@ -51,7 +52,7 @@ namespace IoT_App.Builder
         {
             var t = flashStorage.GetUserSettings();
             Debug.WriteLine(t.IsProtected.ToString());
-            flashStorage.SetUserSettings(new UserSetting() { IsProtected = true });
+            flashStorage.SetUserSettings(new UserSettings() { IsProtected = true });
             var tt = flashStorage.GetUserSettings();
             Debug.WriteLine(tt.IsProtected.ToString());
         }

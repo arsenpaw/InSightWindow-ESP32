@@ -1,4 +1,4 @@
-﻿using IoT_App.Models;
+﻿using IoT_App.Models.Store;
 using nanoFramework.Json;
 using System.Diagnostics;
 using System.IO;
@@ -14,21 +14,26 @@ namespace IoT_App.Services
 
         public FlashStorage()
         {
+
             if (!File.Exists(userSettingsFilePath) || !File.Exists(fileInternalPath))
             {
-                File.Delete(userSettingsFilePath);
-                File.Delete(fileInternalPath);
                 Debug.WriteLine("+++++ Creating a file +++++");
                 File.Create(fileInternalPath);
-                var fsUser = File.Create(userSettingsFilePath);
-                var userSettings = new UserSetting();
-                var dataToWrite = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userSettings));
-                fsUser.Write(dataToWrite, 0, dataToWrite.Length);
-                fsUser.Dispose();
+                _initUserSettings();
+
+
             }
         }
+        private void _initUserSettings()
+        {
+            var fsUser = File.Create(userSettingsFilePath);
+            var userSettings = new UserSettings();
+            var dataToWrite = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userSettings));
+            fsUser.Write(dataToWrite, 0, dataToWrite.Length);
+            fsUser.Dispose();
+        }
 
-        public void SetUserSettings(UserSetting data)
+        public void SetUserSettings(UserSettings data)
         {
             Debug.WriteLine("+++++ Writing to a sample file +++++");
             var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Write);
@@ -37,14 +42,32 @@ namespace IoT_App.Services
             fs.Write(dataToWrite, 0, dataToWrite.Length);
             fs.Dispose();
         }
-        public UserSetting GetUserSettings()
+        public UserSettings GetUserSettings()
         {
             Debug.WriteLine("+++++ Reading from a sample file +++++");
             var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Read);
             byte[] fileContent = new byte[fs.Length];
             fs.Read(fileContent, 0, (int)fs.Length);
+            fs.Dispose();
+            if (fileContent[fileContent.Length - 1] == fileContent[fileContent.Length - 2])
+            {
+                fileContent[fileContent.Length - 1] = 0;
+            }
             var userSettings = System.Text.Encoding.UTF8.GetString(fileContent, 0, fileContent.Length);
-            return (UserSetting)JsonConvert.DeserializeObject(userSettings, typeof(UserSetting));
+            try
+            {
+                return (UserSettings)JsonConvert.DeserializeObject(userSettings, typeof(UserSettings));
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine("Error Has Ocured and user settings recreated");
+                File.Delete(userSettingsFilePath);
+                _initUserSettings();
+                return new UserSettings();
+            }
+
+
         }
     }
 }

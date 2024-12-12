@@ -45,8 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sensors\DHT11.cs" />
     <Compile Include="Sensors\ISensor.cs" />
+    <Compile Include="Sensors\MagnetSensor.cs" />
     <Compile Include="Sensors\WaterSensor.cs" />
     <Compile Include="Services\AesService.cs" />
+    <Compile Include="Services\AlarmService.cs" />
     <Compile Include="Services\FlashStorage.cs" />
     <Compile Include="Services\IAesService.cs" />
     <Compile Include="Services\IFlashStorage.cs" />

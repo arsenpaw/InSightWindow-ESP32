@@ -50,8 +50,8 @@
     <Compile Include="Services\AesService.cs" />
     <Compile Include="Services\AlarmService.cs" />
     <Compile Include="Services\FlashStorage.cs" />
-    <Compile Include="Services\IAesService.cs" />
-    <Compile Include="Services\IFlashStorage.cs" />
+    <Compile Include="Services\Interfaces\IAesService.cs" />
+    <Compile Include="Services\Interfaces\IFlashStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Iot.Device.LiquidLevel">

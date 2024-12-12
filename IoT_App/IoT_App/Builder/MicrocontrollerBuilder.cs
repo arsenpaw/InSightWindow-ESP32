@@ -2,6 +2,7 @@
 using IoT_App.Motor;
 using IoT_App.Sensors;
 using IoT_App.Services;
+using IoT_App.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.Networking;
 using nanoFramework.SignalR.Client;

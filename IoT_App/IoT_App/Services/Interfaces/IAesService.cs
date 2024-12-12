@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace IoT_App.Services
+namespace IoT_App.Services.Interfaces
 {
     public interface IAesService
     {

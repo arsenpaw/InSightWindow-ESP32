@@ -1,6 +1,6 @@
 ﻿using IoT_App.Models.Store;
 
-namespace IoT_App.Services
+namespace IoT_App.Services.Interfaces
 {
     public interface IFlashStorage
     {

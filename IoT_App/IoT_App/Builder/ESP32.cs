@@ -2,7 +2,7 @@
 using IoT_App.Models;
 using IoT_App.Observer;
 using IoT_App.Sensors;
-using IoT_App.Services;
+using IoT_App.Services.Interfaces;
 using nanoFramework.Json;
 using nanoFramework.SignalR.Client;
 using System;

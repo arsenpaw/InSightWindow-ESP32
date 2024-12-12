@@ -1,5 +1,6 @@
 ﻿using IoT_App.Command;
 using IoT_App.Models;
+using IoT_App.Models.Store;
 using IoT_App.Observer;
 using IoT_App.Sensors;
 using IoT_App.Services.Interfaces;
@@ -57,16 +58,10 @@ namespace IoT_App.Builder
 
         public void SendDataFromSensorToServer(AllSensorData data)
         {
-            if (!AllSensorData.IsDataChanged)
+            if (!AllSensorData.IsDataChanged || HubConnection.State != HubConnectionState.Connected)
             {
                 return;
             }
-
-            if (HubConnection.State != HubConnectionState.Connected)
-            {
-                return;
-            }
-
             string deserialized = JsonConvert.SerializeObject(data);
             var encryptedBytes = AesService.EncryptData(deserialized);
             var encryptedBase64 = Convert.ToBase64String(encryptedBytes);
@@ -74,29 +69,33 @@ namespace IoT_App.Builder
             Debug.WriteLine($"SendDataFromSensorToServer: {res.Value}");
 
         }
+        private string _decryptRequest(string rawCryptedRequestBody)
+        {
+            var str = (rawCryptedRequestBody.Trim('"'));
+            var encryptedBytes = Convert.FromBase64String(str);
+            var decryptedData = AesService.DecryptData(encryptedBytes);
+            return decryptedData;
+        }
         public void SubscribeToServerReceiveData()
         {
+            HubConnection.On("Settings", new Type[] { typeof(string) }, (sender, args) =>
+            {
+                var encryptedData = (args[0] as string);
+                var userSettings = (UserSettings)JsonConvert.DeserializeObject(_decryptRequest(encryptedData), typeof(UserSettings));
+                flashStorage.SetUserSettings(userSettings);
+            });
             HubConnection.On("ReceiveCommand", new Type[] { typeof(string) }, (sender, args) =>
             {
-                try
-                {
-                    var encryptedData = (args[0] as string);
-                    var str = (encryptedData.Trim('"'));
-                    var encryptedBytes = Convert.FromBase64String(str);
-                    var decryptedData = AesService.DecryptData(encryptedBytes);
-                    var command = (CommandDto)JsonConvert.DeserializeObject(decryptedData, typeof(CommandDto));
-                    if (command == null)
-                    {
-                        Debug.WriteLine("command is null");
-                    }
 
-                    var commandService = ServiceProvider.GetServiceByCommand(command.Command);
-                    commandService.Execute();
-                }
-                catch (Exception ex)
+                var encryptedData = (args[0] as string);
+                var command = (CommandDto)JsonConvert.DeserializeObject(_decryptRequest(encryptedData), typeof(CommandDto));
+                if (command == null)
                 {
-                    Debug.WriteLine(ex.Message);
+                    Debug.WriteLine("command is null");
                 }
+
+                var commandService = ServiceProvider.GetServiceByCommand(command.Command);
+                commandService.Execute();
             });
         }
 

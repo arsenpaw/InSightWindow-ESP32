@@ -20,7 +20,7 @@ namespace IoT_App.Observer
         public void EnableEventHandling()
         {
             NetworkChange.NetworkAddressChanged += (sender, e) => HandleNetworkAddressChange(NetworkInterface.GetAllNetworkInterfaces());
-            //_hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
+            _hubConnection.Closed += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionLost);
             //_hubConnection.Reconnecting += (sender, args) => RaiseNetworkEvent(NetworkEventsEnum.OnConnectionReconnecting);
         }
         //TODO Make that normal because this
@@ -56,8 +56,6 @@ namespace IoT_App.Observer
             switch (networkEvents)
             {
                 case NetworkEventsEnum.OnConnectionLost:
-                    _hubConnection.Stop();
-                    _hubConnection.Start();
                     AttemptReconnect();
                     break;
 

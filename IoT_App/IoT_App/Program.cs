@@ -7,6 +7,7 @@ using IoT_App.Services;
 using IoT_App.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.SignalR.Client;
+using System;
 using System.Device.Adc;
 using System.Diagnostics;
 using System.Net.Security;
@@ -46,16 +47,22 @@ namespace HttpWebRequestSample
 
             var esp32 = builder.Build();
             esp32.SubscribeOnEvents();
-            new Thread(() => esp32.SubscribeToServerReceiveData()).Start();
+            esp32.SubscribeToServerReceiveData();
             esp32.StartConnection();
             Debug.WriteLine("ESP32 is ready to send data to server");
             while (true)
             {
-                var data = esp32.ComposeDataFromSensor();
-                new Thread(() => esp32.SendDataFromSensorToServer(data)).Start();
-                Debug.WriteLine($"Is open:{data.IsOpen}");
-                Thread.Sleep(1000);
-
+                try
+                {
+                    var data = esp32.ComposeDataFromSensor();
+                    new Thread(() => esp32.SendDataFromSensorToServer(data)).Start();
+                    Debug.WriteLine($"Is open:{data.IsOpen}");
+                    Thread.Sleep(1000);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
         }
 

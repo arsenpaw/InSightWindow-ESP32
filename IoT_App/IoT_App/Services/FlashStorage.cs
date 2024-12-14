@@ -1,72 +1,96 @@
 ﻿using IoT_App.Models.Store;
 using IoT_App.Services.Interfaces;
 using nanoFramework.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
-
 
 namespace IoT_App.Services
 {
     public class FlashStorage : IFlashStorage
     {
-        public const string userSettingsFilePath = "I:\\UserSetting.txt";
+        private const string DefaultUserSettingsFilePath = "I:\\UserSetting.txt";
+        private const string DefaultFileInternalPath = "I:\\InternalStorage.txt";
 
-        public const string fileInternalPath = "I:\\InternalStorage.txt";
+        private readonly string _userSettingsFilePath;
+        private readonly string _fileInternalPath;
+        private readonly object _writeLock = new();
 
         public FlashStorage()
         {
-
-            if (!File.Exists(userSettingsFilePath) || !File.Exists(fileInternalPath))
-            {
-                Debug.WriteLine("+++++ Creating a settings file +++++");
-                File.Create(fileInternalPath);
-                _initUserSettings();
-            }
-        }
-        private void _initUserSettings()
-        {
-            var fsUser = File.Create(userSettingsFilePath);
-            var userSettings = new UserSettings();
-            var dataToWrite = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userSettings));
-            fsUser.Write(dataToWrite, 0, dataToWrite.Length);
-            fsUser.Dispose();
+            _userSettingsFilePath = DefaultUserSettingsFilePath;
+            _fileInternalPath = DefaultFileInternalPath;
+            EnsureFileExists(_userSettingsFilePath, () => CreateDefaultUserSettings());
+            EnsureFileExists(_fileInternalPath);
         }
 
         public void SetUserSettings(UserSettings data)
         {
-            Debug.WriteLine("+++++ Writing to a settings file +++++");
-            var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Write);
-            var userSettings = JsonConvert.SerializeObject(data);
-            var dataToWrite = System.Text.Encoding.UTF8.GetBytes(userSettings);
-            fs.Write(dataToWrite, 0, dataToWrite.Length);
-            fs.Dispose();
+            lock (_writeLock)
+            {
+                Debug.WriteLine("+++++ Writing to a settings file +++++");
+                WriteToFile(_userSettingsFilePath, JsonConvert.SerializeObject(data));
+            }
         }
+
         public UserSettings GetUserSettings()
         {
             Debug.WriteLine("+++++ Reading from a settings file +++++");
-            var fs = new FileStream(userSettingsFilePath, FileMode.Open, FileAccess.Read);
-            byte[] fileContent = new byte[fs.Length];
-            fs.Read(fileContent, 0, (int)fs.Length);
-            fs.Dispose();
-            if (fileContent[fileContent.Length - 1] == fileContent[fileContent.Length - 2])
+            var fileContent = ReadFromFile(_userSettingsFilePath);
+
+            if (string.IsNullOrEmpty(fileContent))
             {
-                fileContent[fileContent.Length - 1] = 0;
-            }
-            var userSettings = System.Text.Encoding.UTF8.GetString(fileContent, 0, fileContent.Length);
-            try
-            {
-                return (UserSettings)JsonConvert.DeserializeObject(userSettings, typeof(UserSettings));
-            }
-            catch (System.Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                Debug.WriteLine("Error Has Ocured and user settings recreated");
-                File.Delete(userSettingsFilePath);
-                _initUserSettings();
+                Debug.WriteLine("User settings file is empty. Recreating...");
+                CreateDefaultUserSettings();
                 return new UserSettings();
             }
 
+            try
+            {
+                return (UserSettings)JsonConvert.DeserializeObject(fileContent, typeof(UserSettings));
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine($"Error while deserializing user settings: {ex.Message}");
+                Debug.WriteLine("Recreating user settings...");
+                File.Delete(_userSettingsFilePath);
+                CreateDefaultUserSettings();
+                return new UserSettings();
+            }
+        }
 
+        private void EnsureFileExists(string filePath, Action? initializer = null)
+        {
+            if (!File.Exists(filePath))
+            {
+                Debug.WriteLine($"Creating file: {filePath}");
+                File.Create(filePath).Dispose();
+                initializer?.Invoke();
+            }
+        }
+
+        private void CreateDefaultUserSettings()
+        {
+            lock (_writeLock)
+            {
+                var defaultSettings = new UserSettings();
+                WriteToFile(_userSettingsFilePath, JsonConvert.SerializeObject(defaultSettings));
+            }
+        }
+
+        private void WriteToFile(string filePath, string content)
+        {
+            using var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            var data = System.Text.Encoding.UTF8.GetBytes(content);
+            fs.Write(data, 0, data.Length);
+        }
+
+        private string ReadFromFile(string filePath)
+        {
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            var buffer = new byte[fs.Length];
+            fs.Read(buffer, 0, buffer.Length);
+            return System.Text.Encoding.UTF8.GetString(buffer, 0, buffer.Length);
         }
     }
 }

@@ -2,6 +2,7 @@
 using IoT_App.ChainOfResponcebility;
 using IoT_App.Models;
 using System;
+using System.Diagnostics;
 
 namespace IoT_App.Sensors
 {
@@ -20,8 +21,19 @@ namespace IoT_App.Sensors
 
         public ISensor ReadData()
         {
-            Humidity = (int)Math.Floor(_dht11.Humidity.Value);
-            Temparature = (int)Math.Floor(_dht11.Temperature.DegreesCelsius);
+            var temp_temperature = _dht11.Temperature;
+            var temp_humidity = _dht11.Humidity;
+            if (_dht11.IsLastReadSuccessful)
+            {
+                Debug.WriteLine($"Temperature: {temp_temperature.DegreesCelsius} \u00B0C, Humidity: {temp_humidity.Percent} %");
+                Humidity = (int)Math.Floor(_dht11.Humidity.Value);
+                Temparature = (int)Math.Floor(_dht11.Temperature.DegreesCelsius);
+            }
+            else
+            {
+                Debug.WriteLine("Error reading DHT sensor");
+            }
+
             return this;
 
         }

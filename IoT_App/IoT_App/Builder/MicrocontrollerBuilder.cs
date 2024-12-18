@@ -29,12 +29,12 @@ namespace IoT_App.Builder
 
         public void AddDht11()
         {
-            Services.AddTransient(typeof(DHT11), typeof(DHT11));
+            Services.AddSingleton(typeof(DHT11), typeof(DHT11));
         }
 
         public void AddWaterSensor()
         {
-            Services.AddTransient(typeof(WaterSensor), typeof(WaterSensor));
+            Services.AddSingleton(typeof(WaterSensor), typeof(WaterSensor));
         }
 
         public void ConfigureServiceConnection(string url, HubConnectionOptions options)

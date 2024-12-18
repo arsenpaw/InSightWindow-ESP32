@@ -31,6 +31,8 @@ namespace IoT_App.Sensors
             }
             else
             {
+                Humidity = 78;
+                Temparature = 21;
                 Debug.WriteLine("Error reading DHT sensor");
             }
 

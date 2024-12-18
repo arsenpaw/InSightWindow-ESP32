@@ -12,7 +12,7 @@ namespace IoT_App
         public const int stepPin2 = 5;  // green to IN2
         public const int stepPin3 = 18; // yellow to IN3
         public const int stepPin4 = 19; // orange to IN4`
-
+        public const int DHT11_PIN = 15; // this is 15 real pin
         public const int magnetSensorPin = 26; // this is D26 real pin
 
         // this is D34 real pin
